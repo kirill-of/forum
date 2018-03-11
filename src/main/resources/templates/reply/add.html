@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1>Add reply</h1>
+        <h2 th:text="${topic.title}">Topic Title</h2>
+    </div>
+    <form th:action="@{/reply/add/{id}(id=${topic.id})}" th:object="${reply}" method="POST">
+        <div class="form-group">
+            <label for="text">Text</label>
+            <textarea class="form-control" id="text" th:field="*{text}" ></textarea>
+            <ul>
+                <li th:each="err : ${#fields.errors('text')}" th:text="${err}"></li>
+            </ul>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Add</button>
+    </form>
+</div>
+</body>
+</html>

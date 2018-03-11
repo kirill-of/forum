@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+<body>
+<div th:fragment="content">
+    <h1>Welcome to the Forum!</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Topic</th>
+            <th>Topic starter</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="topic : ${topics}">
+            <td><a th:href="@{/topic/{id}/(id=${topic.id})}" th:text="${topic.title}"/></td>
+            <td th:text="${topic.user.username}"></td>
+         </tr>
+        </tbody>
+    </table>
+    <a href="/topic/add" class="btn btn-primary">Start New Topic</a>
+</div>
+</body>
+</html>

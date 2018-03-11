@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1 th:text="${topic.title}">Title Topic</h1>
+    </div>
+    <table class="table table-bordered">
+        <tbody>
+        <tr>
+            <td class="col-md-1">
+                <figure>
+                    <img src="/images/icon_user.png" alt="" />
+                    <figcaption th:text="${topic.text}">username</figcaption>
+                </figure>
+            </td>
+            <td th:text="${topic.text}"></td>
+        </tr>
+
+        <tr th:each="reply : ${replies}">
+            <td class="col-md-1">
+                <figure>
+                    <img src="/images/icon_user.png" alt="" />
+                    <figcaption th:text="${reply.user.username}">username</figcaption>
+                </figure>
+            </td>
+            <td th:text="${reply.text}"></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+    <a th:href="@{/reply/add/{id}(id=${topic.id})}" class="btn btn-primary">Reply to this topic</a>
+</div>
+</body>
+</html>

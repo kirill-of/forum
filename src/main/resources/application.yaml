@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: myforum
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  messages:
+    basename: messages
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/myforum
+    username: root
+
+logging:
+  file: logs/log.txt
+
+server:
+  port: 8090
