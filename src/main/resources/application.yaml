@@ -1,4 +1,5 @@
 spring:
+  profiles.active: ${MVC_ACTIVE_PROFILE:production}
   application:
     name: myforum
   http:
@@ -8,15 +9,29 @@ spring:
       force: true
   messages:
     basename: messages
+---
+spring:
+  profiles: dev
   jpa:
     hibernate:
       ddl-auto: update
   datasource:
     url: jdbc:mysql://localhost:3306/myforum
     username: root
-
 logging:
-  file: logs/log.txt
-
+  file: logs/log_dev.txt
 server:
   port: 8090
+---
+spring:
+  profiles: production
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: ${MVC_DB_CONNECTION_URL}
+    username: ${MVC_DB_USER}
+    password: ${MVC_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+logging:
+  file: logs/log_prod.log
