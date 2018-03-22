@@ -4,46 +4,46 @@
       th:fragment="page">
 <head>
     <title th:text="${title}">My Forum</title>
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    <link rel="stylesheet" type="text/css"
-          href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css"/>
     <link rel="stylesheet" th:href="@{/css/theme.css}"/>
     <link rel="icon" th:href="@{/images/favicon.ico}" type="image/vnd.microsoft.icon"/>
-
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Forum</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
 
-            <form sec:authorize="isAuthenticated()" class="navbar-form navbar-right" th:action="@{/logout}" method="post">
-                <button type="submit" class="btn btn-link">Logout</button>
-            </form>
-            <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-right">
-                <li><a th:href="@{/profile}" sec:authentication="name">Profile</a></li>
-            </ul>
-            <ul sec:authorize="!isAuthenticated()" class="nav navbar-nav navbar-right">
-                <li><a th:href="@{/login}">Sign In</a></li>
-                <li><a th:href="@{/registration}">Create Account</a></li>
-            </ul>
-        </div>
+<header class="navbar navbar-expand navbar-white bg-white flex-column flex-md-row border-bottom box-shadow">
+    <div sec:authorize="isAuthenticated()" th:remove="tag">
+        <a class="navbar-brand text-dark my-0 mr-md-auto" href="/" th:text="#{header.siteName}">My Forum</a>
+        <span th:utext="#{header.youAreLoggedAs(${#authentication.name})}" class="mx-1">You are logged as:</span>
+        <a th:href="@{/profile}" th:text="#{header.profile}" class="mx-1 btn btn-outline-info">Profile</a>
+        <form th:action="@{/logout}"
+              method="post">
+            <button type="submit" th:text="#{header.logout}" class="btn btn-outline-secondary">Logout</button>
+        </form>
     </div>
-</nav>
+
+    <div sec:authorize="isAnonymous()" th:remove="tag">
+        <a href="/" th:text="#{header.siteName}" class="navbar-brand text-dark my-0 mr-md-auto">My Forum</a>
+        <a th:href="@{/login}" th:text="#{header.signIn}" class="mx-1 btn btn-outline-secondary">Sign In</a>
+        <a th:href="@{/registration}" th:text="#{header.signUp}" class="mx-1 btn btn-outline-primary">Sign Up</a>
+    </div>
+</header>
 
 <div class="container">
-    <div th:include="this :: content"></div>
+    <div th:replace="this :: content"></div>
 </div>
 
-<script type="text/javascript"
-        src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+<div class="container">
+    <footer class="pt-4 my-md-5 border-top">
+        <div class="container">
+            <p class="small text-center text-dark" th:utext="#{footer.copyright}">&copy; Copyright</p>
+        </div>
+    </footer>
+</div>
 
-<script type="text/javascript"
-        src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+<div th:replace="this :: scripts"></div>
 
 </body>
 </html>

@@ -5,19 +5,29 @@
 <body>
 <div th:fragment="content">
     <div class="page-header">
-        <h1>Add reply</h1>
+        <h1 th:text="#{reply.heading.add}">Add reply to</h1>
         <h2 th:text="${topic.title}">Topic Title</h2>
     </div>
-    <form th:action="@{/reply/add/{id}(id=${topic.id})}" th:object="${reply}" method="POST">
+    <form th:action="@{/reply/add/?topic_id={id}(id=${topic.id})}" th:object="${reply}" method="POST"
+          class="form-sign needs-validation" th:novalidate="novalidate">
         <div class="form-group">
-            <label for="text">Text</label>
-            <textarea class="form-control" id="text" th:field="*{text}" ></textarea>
-            <ul>
-                <li th:each="err : ${#fields.errors('text')}" th:text="${err}"></li>
-            </ul>
+            <label th:text="#{reply.label.text}" for="text">Text</label>
+            <textarea class="form-control" id="text" th:field="*{text}" th:required="required" rows="5"></textarea>
+            <div th:text="#{notEmpty.field}" class="invalid-feedback">
+                This is a required field
+            </div>
+            <div th:if="${#fields.hasErrors('text')}" class="alert alert-danger form-sign my-1">
+                <ul class="m-0">
+                    <li th:each="err : ${#fields.errors('text')}" th:text="${err}"></li>
+                </ul>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg">Add</button>
+        <button th:value="#{reply.btn.submit}" type="submit" class="btn btn-lg btn-primary">Add</button>
     </form>
+</div>
+
+<div th:fragment="scripts" th:remove="tag">
+    <script src="/js/check-forms.js"></script>
 </div>
 </body>
 </html>

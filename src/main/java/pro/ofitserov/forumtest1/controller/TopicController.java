@@ -17,6 +17,7 @@ import pro.ofitserov.forumtest1.response.ResourceNotFoundException;
 import pro.ofitserov.forumtest1.service.UserService;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -51,6 +52,7 @@ public class TopicController {
         }
 
         topic.setUser(userService.getCurrentUser());
+        topic.setDateOfPublication(new Date());
 
         topicRepository.save(topic);
 

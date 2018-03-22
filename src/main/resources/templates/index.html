@@ -4,22 +4,26 @@
       th:include="layout :: page">
 <body>
 <div th:fragment="content">
-    <h1>Welcome to the Forum!</h1>
+    <div class="page-header">
+        <h1 th:text="#{home.welcome}"></h1>
+    </div>
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Topic</th>
-            <th>Topic starter</th>
+            <th class="w-75"><span th:text="#{topics.topic}">Topic</span></th>
+            <th><span th:text="#{topics.replies}">Replies</span></th>
+            <th><span th:text="#{topics.author}">Author</span></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="topic : ${topics}">
-            <td><a th:href="@{/topic/{id}/(id=${topic.id})}" th:text="${topic.title}"/></td>
+            <td><a th:href="@{/topic/{id}/(id=${topic.id})}" th:text="${topic.title}">-</a></td>
+            <td th:text="${topic.replies.size()}"></td>
             <td th:text="${topic.user.username}"></td>
-         </tr>
+        </tr>
         </tbody>
     </table>
-    <a href="/topic/add" class="btn btn-primary">Start New Topic</a>
+    <a href="/topic/add" class="btn btn-primary" th:text="#{topics.btn.new}">Start New Topic</a>
 </div>
 </body>
 </html>

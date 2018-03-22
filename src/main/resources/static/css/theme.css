@@ -1,3 +1,22 @@
-figure {
-    text-align: center;
+.border-top {
+    border-top: 1px solid #e5e5e5
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.page-header {
+    padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.reply-published {
+    font-style: italic;
+    color:#6c757d;
 }

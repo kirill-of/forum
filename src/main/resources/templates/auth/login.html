@@ -4,27 +4,41 @@
       th:include="layout :: page">
 <body>
 <div th:fragment="content">
-    <div  class="page-header">
-        <h1>Sign In</h1>
+    <div class="page-header">
+        <h1 th:text="#{login.heading}">Sign In</h1>
     </div>
     <div th:if="${param.error}" class="alert alert-danger form-sign">
-        Invalid username or password.
-    </div>
+    Invalid username or password.
+</div>
     <div th:if="${param.logout}" class="alert alert-success form-sign">
         You have been logged out.
     </div>
-    <form th:action="@{/login}" method="post" class="form-sign">
-        <div class="form-group">
-            <label class="control-label" for="username">User Name</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+    <form th:action="@{/login}" method="post" class="form-sign needs-validation" th:novalidate="novalidate">
+        <div class="form-group needs-validation">
+            <label th:text="#{login.label.login}" class="control-label" for="username">User Name</label>
+            <input type="text" th:attr="placeholder=#{login.placeholder.login}" th:required="required"
+                   class="form-control"
+                   id="username" name="username"/>
+            <div th:text="#{notEmpty.field}" class="invalid-feedback">
+                This is a required field
+            </div>
         </div>
         <div class="form-group">
-            <label class="control-label" for="password">Password</label>
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+            <label th:text="#{login.label.password}" class="control-label" for="password">Password</label>
+            <input type="password" th:attr="placeholder=#{login.placeholder.password}" th:required="required"
+                   class="form-control" name="password" id="password"/>
+            <div th:text="#{notEmpty.field}" class="invalid-feedback">
+                This is a required field
+            </div>
         </div>
 
-        <input class="btn btn-success btn-block" type="submit" value="Sign In"/>
+        <input type="submit" th:value="#{login.btn.submit}" class="btn btn-success btn-block" value="Sign In!"/>
     </form>
 </div>
+
+<div th:fragment="scripts" th:remove="tag">
+    <script src="/js/check-forms.js"></script>
+</div>
+
 </body>
 </html>

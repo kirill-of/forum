@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:include="layout :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1 th:text="#{profile.heading}">Profile</h1>
+    </div>
+
+    <table class="table table-bordered">
+        <tbody>
+        <tr>
+            <td class="w-25">
+                <span th:text="#{profile.label.username}">Username</span>
+            </td>
+            <td class="w-75">
+                <span th:text="${user.username}">Username</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span th:text="#{profile.label.email}">Username</span>
+            </td>
+            <td>
+                <span th:text="${user.email}">Email</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span th:text="#{profile.label.dateOfRegistration}">DateOfRegistration</span>
+            </td>
+            <td>
+                <span th:text="${user.dateOfRegistration}">DateOfRegistration</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span th:text="#{profile.label.Roles}">Roles</span>
+            </td>
+            <td>
+                <span sec:authentication="principal.authorities">Roles</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr class="mb-4"/>
+    <a href="/" th:text="#{btn.goToIndexPage}" class="btn btn-primary">goToIndexPage</a>
+</div>
+</body>
+</html>

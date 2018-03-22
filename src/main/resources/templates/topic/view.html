@@ -10,29 +10,40 @@
     <table class="table table-bordered">
         <tbody>
         <tr>
-            <td class="col-md-1">
-                <figure>
-                    <img src="/images/icon_user.png" alt="" />
-                    <figcaption th:text="${topic.text}">username</figcaption>
+            <td class="text-center" style="width:115px;">
+                <figure class="figure">
+                    <img src="/images/user-no-image.png" class="img-thumbnail" alt="no image"/>
+                    <figcaption class="figure-caption">
+                        <span th:text="${topic.user.username}">username</span><br/>
+                        <span th:text="#{topic.user.replies(${topic.user.replies.size()})}">replies</span>
+                    </figcaption>
                 </figure>
             </td>
-            <td th:text="${topic.text}"></td>
+            <td>
+                <div th:text="#{topic.reply.published(${topic.dateOfPublication})}" class="reply-published small text-right">published on</div>
+                <div th:text="${topic.text}"></div>
+            </td>
         </tr>
 
         <tr th:each="reply : ${replies}">
-            <td class="col-md-1">
-                <figure>
-                    <img src="/images/icon_user.png" alt="" />
-                    <figcaption th:text="${reply.user.username}">username</figcaption>
+            <td class="text-center">
+                <figure class="figure">
+                    <img src="/images/user-no-image.png" class="img-thumbnail" alt="no image"/>
+                    <figcaption class="figure-caption">
+                        <span th:text="${reply.user.username}">username</span><br/>
+                        <span th:text="#{topic.user.replies(${reply.user.replies.size()})}">replies</span>
+                    </figcaption>
                 </figure>
             </td>
-            <td th:text="${reply.text}"></td>
+            <td>
+                <div th:text="#{topic.reply.published(${reply.dateOfPublication})}" class="reply-published small text-right">published on</div>
+                <div th:text="${reply.text}"></div>
+            </td>
         </tr>
-
 
         </tbody>
     </table>
-    <a th:href="@{/reply/add/{id}(id=${topic.id})}" class="btn btn-primary">Reply to this topic</a>
+    <a th:href="@{/reply/add/?topic_id={id}(id=${topic.id})}" class="btn btn-primary">Reply to this topic</a>
 </div>
 </body>
 </html>

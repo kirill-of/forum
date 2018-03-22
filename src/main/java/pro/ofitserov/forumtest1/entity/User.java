@@ -2,6 +2,8 @@ package pro.ofitserov.forumtest1.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -19,27 +22,40 @@ public class User implements UserDetails {
     @Setter
     private Long id;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 3, max = 30)
     @Column(unique = true)
     @Getter
     @Setter
     private String username;
 
-    @NotNull
+    @NotEmpty
     @Size(min = 3, max = 100)
     @Getter
     @Setter
     private String password;
 
-    /*
+    @NotNull
+    @Getter
+    @Setter
     private Date dateOfRegistration;
-    private String email;
-    private long countMessages;
-    */
 
-    /*@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
-    private Set<Topic> topics;*/
+    @NotNull
+    @Column(unique = true)
+    @Email
+    @Getter
+    @Setter
+    private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    private Set<Reply> replies;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    private Set<Topic> topics;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
