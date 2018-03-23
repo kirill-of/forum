@@ -30,8 +30,4 @@ spring:
       ddl-auto: update
   datasource:
     url: postgres://dipyjyytfxlekh:fc30c81ad6ad81800f4dfc6a1f24bca8ad3eadb133dd05eecada6cac232a82ba@ec2-54-247-81-88.eu-west-1.compute.amazonaws.com:5432/d401ubk7h3na7f
-    username: dipyjyytfxlekh
-    password: fc30c81ad6ad81800f4dfc6a1f24bca8ad3eadb133dd05eecada6cac232a82ba
     driver-class-name: org.postgresql.Driver
-logging:
-  file: logs/log_prod.log
