@@ -3,9 +3,9 @@ package pro.ofitserov.forumtest1.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
+import pro.ofitserov.forumtest1.util.ForumConstants;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -18,7 +18,7 @@ public class Reply {
     private Long id;
 
     @NotEmpty
-    @Size(min = 5, max = 1000)
+    @Size(min = ForumConstants.MIN_LENGTH_TEXT, max = ForumConstants.MAX_LENGTH_TEXT)
     @Getter
     @Setter
     private String text;

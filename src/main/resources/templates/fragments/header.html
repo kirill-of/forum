@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header"
+        class="navbar navbar-expand navbar-white bg-white flex-column flex-md-row border-bottom box-shadow">
+    <div sec:authorize="isAuthenticated()" th:remove="tag">
+        <a class="navbar-brand text-dark my-0 mr-md-auto" href="/" th:text="#{header.siteName}">My Forum</a>
+        <span th:utext="#{header.youAreLoggedAs(${#authentication.name})}" class="mx-1">You are logged as:</span>
+        <a th:href="@{/profile}" th:text="#{header.profile}" class="mx-1 btn btn-outline-info">Profile</a>
+        <form th:action="@{/logout}"
+              method="post">
+            <button type="submit" th:text="#{header.logout}" class="btn btn-outline-secondary">Logout</button>
+        </form>
+    </div>
+
+    <div sec:authorize="isAnonymous()" th:remove="tag">
+        <a href="/" th:text="#{header.siteName}" class="navbar-brand text-dark my-0 mr-md-auto">My Forum</a>
+        <a th:href="@{/login}" th:text="#{header.signIn}" class="mx-1 btn btn-outline-secondary">Sign In</a>
+        <a th:href="@{/registration}" th:text="#{header.signUp}" class="mx-1 btn btn-outline-primary">Sign Up</a>
+    </div>
+
+</header>
+</body>
+</html>

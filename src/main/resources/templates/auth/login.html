@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/default :: page">
 <body>
 <div th:fragment="content">
     <div class="page-header">
         <h1 th:text="#{login.heading}">Sign In</h1>
     </div>
     <div th:if="${param.error}" class="alert alert-danger form-sign">
-    Invalid username or password.
-</div>
+        Invalid username or password.
+    </div>
     <div th:if="${param.logout}" class="alert alert-success form-sign">
         You have been logged out.
     </div>
@@ -37,7 +36,12 @@
 </div>
 
 <div th:fragment="scripts" th:remove="tag">
-    <script src="/js/check-forms.js"></script>
+    <script type="text/javascript" src="/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('.needs-validation').validate();
+        });
+    </script>
 </div>
 
 </body>

@@ -3,9 +3,9 @@ package pro.ofitserov.forumtest1.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
+import pro.ofitserov.forumtest1.util.ForumConstants;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
@@ -19,13 +19,13 @@ public class Topic {
     private Long id;
 
     @NotEmpty
-    @Size(min = 5, max = 255)
+    @Size(min = ForumConstants.MIN_LENGTH_TITLE, max = ForumConstants.MAX_LENGTH_TITLE)
     @Getter
     @Setter
     private String title;
 
     @NotEmpty
-    @Size(min = 5, max = 10000)
+    @Size(min = ForumConstants.MIN_LENGTH_TEXT, max = ForumConstants.MAX_LENGTH_TEXT)
     @Getter
     @Setter
     private String text;

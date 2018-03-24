@@ -13,6 +13,7 @@ import pro.ofitserov.forumtest1.controller.validator.UserFormValidator;
 import pro.ofitserov.forumtest1.entity.User;
 import pro.ofitserov.forumtest1.repository.UserRepository;
 import pro.ofitserov.forumtest1.service.UserService;
+import pro.ofitserov.forumtest1.util.ForumConstants;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -40,6 +41,10 @@ public class AuthController {
     public String registration(Model model) {
         model.addAttribute("title", "Registration");
         model.addAttribute("userRegistrationForm", new UserRegistrationForm());
+        model.addAttribute("minLengthUsername", ForumConstants.MIN_LENGTH_USERNAME);
+        model.addAttribute("maxLengthUsername", ForumConstants.MAX_LENGTH_USERNAME);
+        model.addAttribute("minLengthPassword", ForumConstants.MIN_LENGTH_PASSWORD);
+        model.addAttribute("maxLengthPassword", ForumConstants.MAX_LENGTH_PASSWORD);
         return "auth/registration";
     }
 

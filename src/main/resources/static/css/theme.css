@@ -18,5 +18,18 @@
 
 .reply-published {
     font-style: italic;
-    color:#6c757d;
+    color: #6c757d;
+}
+
+input.error {
+    border: 1px solid #dc3545;
+}
+
+label.error {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-weight: normal;
+    font-size: 80%;
+    color: #dc3545;
 }

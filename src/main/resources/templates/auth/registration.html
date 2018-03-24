@@ -1,51 +1,54 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/default :: page">
 <body>
 <div th:fragment="content">
     <div class="page-header">
         <h1 th:text="#{registration.heading}">Sign Up</h1>
     </div>
-    <form th:action="@{/registration}" method="post" class="form-sign needs-validation"
-          th:object="${userRegistrationForm}" th:novalidate="novalidate">
-        <div th:if="${#fields.hasErrors()}" class="alert alert-danger form-sign">
-            <ul class="m-0">
-                <li th:each="err : ${#fields.errors()}" th:text="${err}"></li>
-            </ul>
-        </div>
+    <form th:action="@{/registration}" id="form" method="post" class="form-sign needs-validation"
+          th:object="${userRegistrationForm}">
         <div class="form-group">
             <label th:text="#{registration.label.username}" class="control-label" for="username">User Name</label>
             <input type="text" class="form-control" id="username" th:field="*{username}"
                    th:attr="placeholder=#{registration.placeholder.username}" th:required="required"/>
-            <div th:text="#{notEmpty.field}" class="invalid-feedback">
-                This is a required field
-            </div>
+            <label th:if="${#fields.hasErrors('username')}" class="error" style="display: inline-block;">
+                <ul>
+                    <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
+                </ul>
+            </label>
+
         </div>
         <div class="form-group">
             <label th:text="#{registration.label.email}" class="control-label" for="email">Email</label>
             <input type="email" class="form-control" id="email" th:field="*{email}"
                    th:attr="placeholder=#{registration.placeholder.email}" th:required="required"/>
-            <div th:text="#{registration.error.invalidEmail}" class="invalid-feedback">
-                This is a required field
-            </div>
+            <label th:if="${#fields.hasErrors('email')}" class="error" style="display: inline-block;">
+                <ul>
+                    <li th:each="err : ${#fields.errors('email')}" th:text="${err}"></li>
+                </ul>
+            </label>
         </div>
         <div class="form-group">
             <label th:text="#{registration.label.password}" class="control-label" for="password">Password</label>
             <input type="password" class="form-control" th:field="*{password}" id="password"
                    th:attr="placeholder=#{registration.placeholder.password}" th:required="required"/>
-            <div th:text="#{notEmpty.field}" class="invalid-feedback">
-                This is a required field
-            </div>
+            <label th:if="${#fields.hasErrors('password')}" class="error" style="display: inline-block;">
+                <ul>
+                    <li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
+                </ul>
+            </label>
         </div>
         <div class="form-group">
             <label th:text="#{registration.label.confirmPassword}" class="control-label" for="confirmPassword">Confirm
                 Password</label>
             <input type="password" class="form-control" th:field="*{confirmPassword}" id="confirmPassword"
                    th:attr="placeholder=#{registration.placeholder.confirmPassword}" th:required="required"/>
-            <div th:text="#{registration.error.passwordsNotMatch}" class="invalid-feedback">
-                Passwords Don't Match
-            </div>
+            <label th:if="${#fields.hasErrors('confirmPassword')}" class="error" style="display: inline-block;">
+                <ul>
+                    <li th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></li>
+                </ul>
+            </label>
         </div>
 
         <input type="submit" th:value="#{registration.btn.submit}" class="btn btn-success btn-block" value="Sign Up!"/>
@@ -53,23 +56,35 @@
 </div>
 
 <div th:fragment="scripts" th:remove="tag">
-    <script src="/js/check-forms.js"></script>
-    <script>
-        var password = document.getElementById("password")
-            , confirm_password = document.getElementById("confirmPassword");
-
-        function validatePassword() {
-            if (password.value != confirm_password.value) {
-                confirm_password.setCustomValidity("Passwords Don't Match");
-            } else {
-                confirm_password.setCustomValidity('');
-            }
-        }
-
-        password.onchange = validatePassword;
-        confirm_password.onkeyup = validatePassword;
+    <script type="text/javascript" src="/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('.needs-validation').validate({
+                rules: {
+                    username: {
+                        required: true,
+                        minlength: [[${minLengthUsername}]],
+                        maxlength: [[${maxLengthUsername}]]
+                    },
+                    username: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: [[${minLengthPassword}]],
+                        maxlength: [[${maxLengthPassword}]]
+                    },
+                    confirmPassword: {
+                        required: true,
+                        minlength: [[${minLengthPassword}]],
+                        maxlength: [[${maxLengthPassword}]],
+                        equalTo: "#password"
+                    }
+                }
+            });
+        });
     </script>
 </div>
-
 </body>
 </html>

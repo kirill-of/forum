@@ -79,4 +79,20 @@ public class TopicController {
         model.addAttribute("replies", replies);
         return "topic/view";
     }
+
+    @GetMapping("/{id}/edit")
+    @PreAuthorize("hasRole('USER')")
+    public String edit(@PathVariable Long id, ModelMap model) {
+
+        Topic topic = topicRepository.findOne(id);
+
+        if (topic == null) {
+            throw new ResourceNotFoundException();
+        }
+
+        model.addAttribute("title", "Edit topic");
+        model.addAttribute("topic", topic);
+
+        return "topic/add";
+    }
 }

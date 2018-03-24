@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pro.ofitserov.forumtest1.util.ForumConstants;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,29 +24,28 @@ public class User implements UserDetails {
     private Long id;
 
     @NotEmpty
-    @Size(min = 3, max = 30)
+    @Size(min = ForumConstants.MIN_LENGTH_USERNAME, max = ForumConstants.MAX_LENGTH_USERNAME)
     @Column(unique = true)
     @Getter
     @Setter
     private String username;
 
     @NotEmpty
-    @Size(min = 3, max = 100)
-    @Getter
-    @Setter
-    private String password;
-
-    @NotNull
-    @Getter
-    @Setter
-    private Date dateOfRegistration;
-
-    @NotNull
     @Column(unique = true)
     @Email
     @Getter
     @Setter
     private String email;
+
+    @NotEmpty
+    @Getter
+    @Setter
+    private String password;
+
+    @Getter
+    @Setter
+    private Date dateOfRegistration;
+
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @Getter
