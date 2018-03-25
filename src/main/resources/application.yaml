@@ -15,9 +15,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-  #datasource:
-    #url: jdbc:mysql://localhost:3306/myforum
-    #username: root
+  datasource:
+    url: jdbc:mysql://localhost:3306/myforum
+    username: root
 logging:
   file: logs/log_dev.txt
 server:
