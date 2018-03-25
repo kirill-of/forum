@@ -27,7 +27,4 @@ spring:
   profiles: production
   jpa:
     hibernate:
-      ddl-auto: update
-  datasource:
-    url: postgres://dipyjyytfxlekh:fc30c81ad6ad81800f4dfc6a1f24bca8ad3eadb133dd05eecada6cac232a82ba@ec2-54-247-81-88.eu-west-1.compute.amazonaws.com:5432/d401ubk7h3na7f
-    driver-class-name: org.postgresql.Driver
+      ddl-auto: create
