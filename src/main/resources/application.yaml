@@ -26,5 +26,14 @@ server:
 spring:
   profiles: production
   jpa:
+    database: POSTGRESQL
+    show-sql: true
     hibernate:
-      ddl-auto: create
+    ddl-auto: create-drop
+  datasource:
+    platform: postgres
+    url: jdbc:postgres://qyvpckfmhnmbdr:44cffcf65dbd7800993bfac188b96ff9a709b37ead3959546c8b53186ce1236d@ec2-54-247-81-88.eu-west-1.compute.amazonaws.com:5432/d8uv6hi3n5firk
+    username: qyvpckfmhnmbdr
+    password: 44cffcf65dbd7800993bfac188b96ff9a709b37ead3959546c8b53186ce1236d
+    driverClassName: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
