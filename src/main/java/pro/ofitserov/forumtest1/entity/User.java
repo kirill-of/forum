@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import pro.ofitserov.forumtest1.util.ForumConstants;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -24,7 +24,7 @@ public class User implements UserDetails {
     private Long id;
 
     @NotEmpty
-    @Size(min = ForumConstants.MIN_LENGTH_USERNAME, max = ForumConstants.MAX_LENGTH_USERNAME)
+    @Size(min = ForumConstants.USERNAME_LENGTH_MIN, max = ForumConstants.USERNAME_LENGTH_MAX)
     @Column(unique = true)
     @Getter
     @Setter
@@ -56,6 +56,15 @@ public class User implements UserDetails {
     @Getter
     @Setter
     private Set<Topic> topics;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @Getter
+    @Setter
+    private Photo photo;
+
+    public boolean getPhotoExist() {
+        return Objects.nonNull(photo);
+    }
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

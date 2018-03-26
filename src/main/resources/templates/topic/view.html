@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      th:include="layout :: page">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/default :: page">
 <body>
 <div th:fragment="content">
     <div class="page-header">
@@ -10,9 +9,10 @@
     <table class="table table-bordered">
         <tbody>
         <tr>
-            <td class="text-center" style="width:115px;">
+            <td class="text-center" style="width:125px;">
                 <figure class="figure">
-                    <img src="/images/user-no-image.png" class="img-thumbnail" alt="no image"/>
+                    <img th:src="${topic.user.photoExist} ? '/photo?id=' + ${topic.user.photo.id}: @{/images/user_no_image.png}"
+                         src="" class="img-thumbnail user-photo" th:alt="${topic.user.username}"/>
                     <figcaption class="figure-caption">
                         <span th:text="${topic.user.username}">username</span><br/>
                         <span th:text="#{topic.user.replies(${topic.user.replies.size()})}">replies</span>
@@ -20,7 +20,9 @@
                 </figure>
             </td>
             <td>
-                <div th:text="#{topic.reply.published(${topic.dateOfPublication})}" class="reply-published small text-right">published on</div>
+                <div th:text="#{topic.reply.published(${topic.dateOfPublication})}"
+                     class="reply-published small text-right">published on
+                </div>
                 <div th:text="${topic.text}"></div>
             </td>
         </tr>
@@ -28,7 +30,8 @@
         <tr th:each="reply : ${replies}">
             <td class="text-center">
                 <figure class="figure">
-                    <img src="/images/user-no-image.png" class="img-thumbnail" alt="no image"/>
+                    <img th:src="${topic.user.photoExist} ? '/photo?id=' + ${topic.user.photo.id}: @{/images/user_no_image.png}"
+                         src="" class="img-thumbnail user-photo" th:alt="${topic.user.username}"/>
                     <figcaption class="figure-caption">
                         <span th:text="${reply.user.username}">username</span><br/>
                         <span th:text="#{topic.user.replies(${reply.user.replies.size()})}">replies</span>
@@ -36,7 +39,9 @@
                 </figure>
             </td>
             <td>
-                <div th:text="#{topic.reply.published(${reply.dateOfPublication})}" class="reply-published small text-right">published on</div>
+                <div th:text="#{topic.reply.published(${reply.dateOfPublication})}"
+                     class="reply-published small text-right">published on
+                </div>
                 <div th:text="${reply.text}"></div>
             </td>
         </tr>

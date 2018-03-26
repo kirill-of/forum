@@ -19,13 +19,13 @@ public class Topic {
     private Long id;
 
     @NotEmpty
-    @Size(min = ForumConstants.MIN_LENGTH_TITLE, max = ForumConstants.MAX_LENGTH_TITLE)
+    @Size(min = ForumConstants.TITLE_LENGTH_MIN, max = ForumConstants.TITLE_LENGTH_MAX)
     @Getter
     @Setter
     private String title;
 
     @NotEmpty
-    @Size(min = ForumConstants.MIN_LENGTH_TEXT, max = ForumConstants.MAX_LENGTH_TEXT)
+    @Size(min = ForumConstants.TEXT_LENGTH_MIN, max = ForumConstants.TEXT_LENGTH_MAX)
     @Getter
     @Setter
     private String text;

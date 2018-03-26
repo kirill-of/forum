@@ -33,3 +33,8 @@ label.error {
     font-size: 80%;
     color: #dc3545;
 }
+
+.user-photo {
+    width: 100px;
+    height: 100px;
+}

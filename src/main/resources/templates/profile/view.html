@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      th:include="layout :: page">
+      th:include="layouts/default :: page">
 <body>
 <div th:fragment="content">
     <div class="page-header">
-        <h1 th:text="#{profile.heading}">Profile</h1>
+        <h1 th:text="#{profile.heading.view}">Profile</h1>
     </div>
 
     <table class="table table-bordered">
         <tbody>
+        <tr>
+            <td class="w-35">
+                <span th:text="#{profile.label.photo}">photo</span>
+            </td>
+            <td class="w-65">
+                <img th:src="${user.photoExist}? '/photo?id=' + ${user.photo.id} :@{/images/user_no_image.png}" src=""
+                     class="img-thumbnail user-photo" alt="no image"/><br/>
+
+                <a th:href="@{/profile/edit/photo}" th:text="#{profile.btn.edit.photo}"
+                   class="btn btn-link">Edit</a>
+            </td>
+        </tr>
         <tr>
             <td class="w-25">
                 <span th:text="#{profile.label.username}">Username</span>
@@ -21,10 +32,12 @@
         </tr>
         <tr>
             <td>
-                <span th:text="#{profile.label.email}">Username</span>
+                <span th:text="#{profile.label.email}">Email</span>
             </td>
             <td>
-                <span th:text="${user.email}">Email</span>
+                <span th:text="${user.email}">Email</span><br/>
+                <!--<a th:href="@{/profile/edit/email}" href="/" th:text="#{profile.btn.edit.email}"
+                   class="btn btn-link">Edit</a>-->
             </td>
         </tr>
         <tr>
@@ -37,10 +50,19 @@
         </tr>
         <tr>
             <td>
-                <span th:text="#{profile.label.Roles}">Roles</span>
+                <span th:text="#{profile.label.roles}">Roles</span>
             </td>
             <td>
                 <span sec:authentication="principal.authorities">Roles</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span th:text="#{profile.label.password}">Password</span>
+            </td>
+            <td>
+                <a th:href="@{/profile/edit/password}" th:text="#{profile.btn.edit.password}"
+                   class="btn btn-link">Edit</a>
             </td>
         </tr>
         </tbody>

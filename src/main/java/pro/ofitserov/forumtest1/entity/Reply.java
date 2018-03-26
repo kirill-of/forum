@@ -18,7 +18,7 @@ public class Reply {
     private Long id;
 
     @NotEmpty
-    @Size(min = ForumConstants.MIN_LENGTH_TEXT, max = ForumConstants.MAX_LENGTH_TEXT)
+    @Size(min = ForumConstants.TEXT_LENGTH_MIN, max = ForumConstants.TEXT_LENGTH_MAX)
     @Getter
     @Setter
     private String text;

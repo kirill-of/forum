@@ -33,7 +33,7 @@ public class ReplyController {
         this.replyRepository = replyRepository;
     }
 
-    @GetMapping("/add/")
+    @GetMapping("/add")
     @PreAuthorize("hasRole('USER')")
     public String add(@RequestParam("topic_id") Long topicId, ModelMap model) {
         model.addAttribute("title", "Add reply");
@@ -42,7 +42,7 @@ public class ReplyController {
         return "reply/add";
     }
 
-    @PostMapping("/add/")
+    @PostMapping("/add")
     @PreAuthorize("hasRole('USER')")
     public String add(@RequestParam("topic_id") Long topicId, @Valid Reply reply, BindingResult result) {
 

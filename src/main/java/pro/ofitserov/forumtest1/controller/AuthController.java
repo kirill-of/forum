@@ -41,10 +41,10 @@ public class AuthController {
     public String registration(Model model) {
         model.addAttribute("title", "Registration");
         model.addAttribute("userRegistrationForm", new UserRegistrationForm());
-        model.addAttribute("minLengthUsername", ForumConstants.MIN_LENGTH_USERNAME);
-        model.addAttribute("maxLengthUsername", ForumConstants.MAX_LENGTH_USERNAME);
-        model.addAttribute("minLengthPassword", ForumConstants.MIN_LENGTH_PASSWORD);
-        model.addAttribute("maxLengthPassword", ForumConstants.MAX_LENGTH_PASSWORD);
+        model.addAttribute("minLengthUsername", ForumConstants.USERNAME_LENGTH_MIN);
+        model.addAttribute("maxLengthUsername", ForumConstants.USERNAME_LENGTH_MAX);
+        model.addAttribute("minLengthPassword", ForumConstants.PASSWORD_LENGTH_MIN);
+        model.addAttribute("maxLengthPassword", ForumConstants.PASSWORD_LENGTH_MAX);
         return "auth/registration";
     }
 

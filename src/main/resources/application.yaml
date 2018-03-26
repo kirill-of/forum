@@ -1,5 +1,5 @@
 spring:
-  profiles.active: ${MVC_ACTIVE_PROFILE:production}
+  profiles.active: ${MVC_ACTIVE_PROFILE:dev}
   application:
     name: myforum
   http:

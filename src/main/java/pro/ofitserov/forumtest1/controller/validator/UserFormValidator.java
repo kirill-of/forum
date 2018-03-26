@@ -2,7 +2,6 @@ package pro.ofitserov.forumtest1.controller.validator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import pro.ofitserov.forumtest1.controller.form.UserRegistrationForm;
 import pro.ofitserov.forumtest1.entity.User;
