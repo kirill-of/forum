@@ -38,11 +38,11 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User signupUser(User user) {
+    public void signupUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Role userRole = roleRepository.findOne(ID_ROLE_FOR_NEW_USER);
         user.setRoles(Collections.singleton(userRole));
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public User getCurrentUser() {
@@ -55,4 +55,25 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public boolean isCurrentUserId(Long id) {
+        User user = getCurrentUser();
+        return (Objects.nonNull(user) && (user.getId().equals(id)));
+    }
+
+    public boolean isUserLogged() {
+        Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (Objects.nonNull(object)) {
+            try {
+                UserDetails userDetails = (UserDetails) object;
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public Long getCurrentUserId() {
+        return isUserLogged() ? getCurrentUser().getId() : null;
+    }
 }

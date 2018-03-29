@@ -38,7 +38,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/protected/**").access("hasRole('ROLE_MODERATOR')")
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .and().formLogin().loginPage("/login").defaultSuccessUrl("/", false);
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')");
+
+        http.formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/", false);
+
+        http.rememberMe()
+                .key("rem-me-key")
+                .rememberMeParameter("remember-me")
+                .rememberMeCookieName("forum-remember-me")
+                .tokenValiditySeconds(86400);
+
+        http.logout().
+                logoutSuccessUrl("/");
+
     }
 }

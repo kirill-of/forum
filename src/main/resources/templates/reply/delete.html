@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/default :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1 th:text="${title}">Reply</h1>
+    </div>
+
+    <table class="table table-bordered box-shadow bg-white">
+        <tbody>
+        <tr>
+            <td class="text-center bg-light" style="width:125px;">
+                <figure class="figure">
+                    <img th:src="${reply.user.photoExist} ? '/photo?id=' + ${reply.user.photo.id}: @{/images/user_no_image.png}"
+                         src="" class="img-thumbnail user-photo" th:alt="${reply.user.username}"/>
+                    <figcaption class="figure-caption">
+                        <span th:text="${reply.user.username}">username</span><br/>
+                        <span th:text="#{topic.user.posts(${reply.user.countPosts})}">posts</span>
+                    </figcaption>
+                </figure>
+            </td>
+            <td>
+                <div class="reply-published small text-right">
+                    <span th:text="#{topic.reply.published(${reply.dateOfPublication})}">published</span>&nbsp;&nbsp;
+                    <span th:if="${reply.isChanged}"
+                          th:text="#{topic.reply.changed(${reply.dateOfChange})}">changed</span>
+                </div>
+                <blockquote th:if="${reply.replyTo!=null}" class="blockquote bg-light">
+                    <div class="reply-published small text-left">
+                        <span th:text="#{topic.reply.published(${reply.replyTo.dateOfPublication})}">published</span>&nbsp;&nbsp;
+                        <span th:if="${reply.replyTo.isChanged}"
+                              th:text="#{topic.reply.changed(${reply.replyTo.dateOfChange})}">changed</span>
+                    </div>
+                    <div th:utext="${#strings.replace(#strings.escapeXml(reply.replyTo.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+                    <footer th:text="${reply.replyTo.user.username}" class="blockquote-footer">username</footer>
+                </blockquote>
+                <div th:utext="${#strings.replace(#strings.escapeXml(reply.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form th:action="@{/reply/{id}/delete(id=${reply.id})}" th:object="${reply}" method="POST" class="form-sign">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="submit" th:value="${title}" class="btn btn-lg btn-danger" value="Submit"/>
+    </form>
+</div>
+
+</body>
+</html>

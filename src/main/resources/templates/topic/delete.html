@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/default :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1 th:text="${title}">Topic</h1>
+    </div>
+    <h4 th:text="${topic.title}">Topic Title</h4>
+    <table class="table table-bordered box-shadow bg-white">
+        <tbody>
+        <tr>
+            <td class="text-center bg-light" style="width:125px;">
+                <figure class="figure">
+                    <img th:src="${topic.user.photoExist} ? '/photo?id=' + ${topic.user.photo.id}: @{/images/user_no_image.png}"
+                         src="" class="img-thumbnail user-photo" th:alt="${topic.user.username}"/>
+                    <figcaption class="figure-caption">
+                        <span th:text="${topic.user.username}">username</span><br/>
+                        <span th:text="#{topic.user.posts(${topic.user.countPosts})}">posts</span>
+                    </figcaption>
+                </figure>
+            </td>
+            <td>
+                <div class="reply-published small text-right">
+                    <span th:text="#{topic.reply.published(${topic.dateOfPublication})}">published on</span>&nbsp;&nbsp;
+                    <span th:if="${topic.isChanged}"
+                          th:text="#{topic.reply.changed(${topic.dateOfChange})}">changed on</span>
+                </div>
+                <div th:utext="${#strings.replace(#strings.escapeXml(topic.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form th:action="@{/topic/{id}/delete(id=${topic.id})}" th:object="${topic}" method="POST" class="form-sign">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="submit" th:value="${title}" class="btn btn-lg btn-danger" value="Submit"/>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 package pro.ofitserov.forumtest1.controller;
 
 import net.coobird.thumbnailator.Thumbnails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ public class ProfileController {
     private UserRepository userRepository;
     private PhotoRepository photoRepository;
 
+    @Autowired
     public ProfileController(UserService userService, PasswordEncoder passwordEncoder, UserRepository userRepository, PhotoRepository photoRepository) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;

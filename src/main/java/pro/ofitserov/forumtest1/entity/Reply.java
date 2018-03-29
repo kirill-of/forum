@@ -2,12 +2,14 @@ package pro.ofitserov.forumtest1.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotEmpty;
 import pro.ofitserov.forumtest1.util.ForumConstants;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class Reply {
@@ -48,4 +50,15 @@ public class Reply {
     @Getter
     @Setter
     private Topic topic;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "REPLY_ID")
+    @Getter
+    @Setter
+    private Reply replyTo;
+
+    public boolean getIsChanged() {
+        return Objects.nonNull(dateOfChange);
+    }
 }

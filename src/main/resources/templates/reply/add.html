@@ -4,29 +4,93 @@
 <body>
 <div th:fragment="content">
     <div class="page-header">
-        <h1 th:text="#{reply.heading.add}">Add reply to</h1>
-        <h2 th:text="${topic.title}">Topic Title</h2>
+        <h1 th:text="${title}">Reply</h1>
     </div>
-    <form th:action="@{/reply/add/?topic_id={id}(id=${topic.id})}" th:object="${reply}" method="POST"
-          class="form-sign needs-validation" th:novalidate="novalidate">
+
+    <form th:action="@{/reply/add}" th:object="${reply}" method="POST"
+          class="form-sign needs-validation">
+        <!--Topic-->
+        <div th:if="${topic!=null}">
+            <label th:text="#{reply.label.topic}">topic</label>
+            <h4 th:text="${topic.title}">Topic Title</h4>
+            <input th:if="${topic!=null}" type="hidden" name="topic_id" th:value="${topic.id}"/>
+            <table class="table table-bordered box-shadow bg-white">
+                <tbody>
+                <tr>
+                    <td class="text-center" style="width:125px;">
+                        <figure class="figure">
+                            <img th:src="${topic.user.photoExist} ? '/photo?id=' + ${topic.user.photo.id}: @{/images/user_no_image.png}"
+                                 src="" class="img-thumbnail user-photo" th:alt="${topic.user.username}"/>
+                            <figcaption class="figure-caption">
+                                <span th:text="${topic.user.username}">username</span><br/>
+                                <span th:text="#{topic.user.posts(${topic.user.countPosts})}">posts</span>
+                            </figcaption>
+                        </figure>
+                    </td>
+                    <td>
+                        <div class="reply-published small text-right">
+                            <span th:text="#{topic.reply.published(${topic.dateOfPublication})}">published on</span>&nbsp;&nbsp;
+                            <span th:if="${topic.isChanged}"
+                                  th:text="#{topic.reply.changed(${topic.dateOfChange})}">changed on</span>
+                        </div>
+                        <div th:utext="${#strings.replace(#strings.escapeXml(topic.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--ReplyTo-->
+        <div th:if="${replyTo!=null}">
+            <input type="hidden" name="reply_id" th:value="${replyTo.id}"/>
+            <label th:text="#{reply.label.replyTo}">replyTo</label>
+            <table class="table table-bordered box-shadow bg-white">
+                <tbody>
+                <tr>
+                    <td class="text-center" style="width:125px;">
+                        <figure class="figure">
+                            <img th:src="${replyTo.user.photoExist} ? '/photo?id=' + ${replyTo.user.photo.id}: @{/images/user_no_image.png}"
+                                 src="" class="img-thumbnail user-photo" th:alt="${replyTo.user.username}"/>
+                            <figcaption class="figure-caption">
+                                <span th:text="${replyTo.user.username}">username</span><br/>
+                                <span th:text="#{topic.user.posts(${replyTo.user.countPosts})}">posts</span>
+                            </figcaption>
+                        </figure>
+                    </td>
+                    <td>
+                        <div class="reply-published small text-right">
+                            <span th:text="#{topic.reply.published(${replyTo.dateOfPublication})}">published</span>&nbsp;&nbsp;
+                            <span th:if="${replyTo.isChanged}"
+                                  th:text="#{topic.reply.changed(${replyTo.dateOfChange})}">changed</span>
+                        </div>
+                        <div th:utext="${#strings.replace(#strings.escapeXml(replyTo.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
             <label th:text="#{reply.label.text}" for="text">Text</label>
             <textarea class="form-control" id="text" th:field="*{text}" th:required="required" rows="5"></textarea>
-            <div th:text="#{notEmpty.field}" class="invalid-feedback">
-                This is a required field
-            </div>
-            <div th:if="${#fields.hasErrors('text')}" class="alert alert-danger form-sign my-1">
-                <ul class="m-0">
+            <label th:if="${#fields.hasErrors('text')}" class="error" style="display: inline-block;">
+                <ul>
                     <li th:each="err : ${#fields.errors('text')}" th:text="${err}"></li>
                 </ul>
-            </div>
+            </label>
         </div>
-        <button th:value="#{reply.btn.submit}" type="submit" class="btn btn-lg btn-primary">Add</button>
+        <input type="submit" th:value="${title}" class="btn btn-lg btn-primary" value="Submit"/>
     </form>
 </div>
 
 <div th:fragment="scripts" th:remove="tag">
-    <script src="/js/check-forms.js"></script>
+    <script type="text/javascript" src="/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('.needs-validation').validate();
+        });
+    </script>
 </div>
+
 </body>
 </html>

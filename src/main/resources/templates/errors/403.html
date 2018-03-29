@@ -9,7 +9,8 @@
     <div class="jumbotron">
         <h2>You are not authorized!</h2>
         <p class="lead">There are nothing to show for you.</p>
-        <a href="/" th:text="#{btn.goToIndexPage}" class="btn btn-lg btn-primary">goToIndexPage</a>
+        <a th:href="@{/}" href="#" th:text="#{btn.goToIndexPage}" class="btn btn-lg btn-primary">goToIndexPage</a>
+        <a th:href="@{/login}" href="#" th:text="#{header.signIn}" class="btn btn-lg btn-outline-secondary">goToIndexPage</a>
     </div>
 
 </div>

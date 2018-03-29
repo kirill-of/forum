@@ -13,23 +13,21 @@ import pro.ofitserov.forumtest1.controller.validator.UserFormValidator;
 import pro.ofitserov.forumtest1.entity.User;
 import pro.ofitserov.forumtest1.repository.UserRepository;
 import pro.ofitserov.forumtest1.service.UserService;
-import pro.ofitserov.forumtest1.util.ForumConstants;
 
 import javax.validation.Valid;
 import java.util.Date;
 
 @Controller
 public class AuthController {
-
-    @Autowired
     private UserService userService;
-
     private UserFormValidator userFormValidator;
-
     private UserRepository userRepository;
 
-    public AuthController(UserFormValidator userFormValidator) {
+    @Autowired
+    public AuthController(UserService userService, UserFormValidator userFormValidator, UserRepository userRepository) {
+        this.userService = userService;
         this.userFormValidator = userFormValidator;
+        this.userRepository = userRepository;
     }
 
     @InitBinder
@@ -41,10 +39,6 @@ public class AuthController {
     public String registration(Model model) {
         model.addAttribute("title", "Registration");
         model.addAttribute("userRegistrationForm", new UserRegistrationForm());
-        model.addAttribute("minLengthUsername", ForumConstants.USERNAME_LENGTH_MIN);
-        model.addAttribute("maxLengthUsername", ForumConstants.USERNAME_LENGTH_MAX);
-        model.addAttribute("minLengthPassword", ForumConstants.PASSWORD_LENGTH_MIN);
-        model.addAttribute("maxLengthPassword", ForumConstants.PASSWORD_LENGTH_MAX);
         return "auth/registration";
     }
 

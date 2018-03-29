@@ -63,8 +63,8 @@
                 rules: {
                     username: {
                         required: true,
-                        minlength: [[${minLengthUsername}]],
-                        maxlength: [[${maxLengthUsername}]]
+                        minlength: [[${T(pro.ofitserov.forumtest1.util.ForumConstants).USERNAME_LENGTH_MIN}]],
+                        maxlength: [[${T(pro.ofitserov.forumtest1.util.ForumConstants).USERNAME_LENGTH_MAX}]]
                     },
                     email: {
                         required: true,
@@ -72,13 +72,13 @@
                     },
                     password: {
                         required: true,
-                        minlength: [[${minLengthPassword}]],
-                        maxlength: [[${maxLengthPassword}]]
+                        minlength: [[${T(pro.ofitserov.forumtest1.util.ForumConstants).PASSWORD_LENGTH_MIN}]],
+                        maxlength: [[${T(pro.ofitserov.forumtest1.util.ForumConstants).PASSWORD_LENGTH_MAX}]]
                     },
                     confirmPassword: {
                         required: true,
-                        minlength: [[${minLengthPassword}]],
-                        maxlength: [[${maxLengthPassword}]],
+                        minlength: [[${T(pro.ofitserov.forumtest1.util.ForumConstants).PASSWORD_LENGTH_MIN}]],
+                        maxlength: [[${T(pro.ofitserov.forumtest1.util.ForumConstants).PASSWORD_LENGTH_MAX}]],
                         equalTo: "#password"
                     }
                 }

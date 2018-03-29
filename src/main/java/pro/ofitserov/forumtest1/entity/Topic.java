@@ -8,6 +8,7 @@ import pro.ofitserov.forumtest1.util.ForumConstants;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -54,4 +55,8 @@ public class Topic {
     @Getter
     @Setter
     private Set<Reply> replies;
+
+    public boolean getIsChanged() {
+        return Objects.nonNull(dateOfChange);
+    }
 }

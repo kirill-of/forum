@@ -66,6 +66,10 @@ public class User implements UserDetails {
         return Objects.nonNull(photo);
     }
 
+    public int getCountPosts() {
+        return (topics.size() + replies.size());
+    }
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "ROLE_ASSIGNMENTS",

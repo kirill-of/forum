@@ -1,54 +1,111 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:include="layouts/default :: page">
 <body>
 <div th:fragment="content">
     <div class="page-header">
         <h1 th:text="${topic.title}">Title Topic</h1>
     </div>
-    <table class="table table-bordered">
+    <table class="table table-bordered box-shadow bg-white">
         <tbody>
+        <!--Topic-->
         <tr>
-            <td class="text-center" style="width:125px;">
+            <td class="text-center bg-light" style="width:125px;">
                 <figure class="figure">
                     <img th:src="${topic.user.photoExist} ? '/photo?id=' + ${topic.user.photo.id}: @{/images/user_no_image.png}"
                          src="" class="img-thumbnail user-photo" th:alt="${topic.user.username}"/>
                     <figcaption class="figure-caption">
                         <span th:text="${topic.user.username}">username</span><br/>
-                        <span th:text="#{topic.user.replies(${topic.user.replies.size()})}">replies</span>
+                        <span th:text="#{topic.user.posts(${topic.user.countPosts})}">posts</span>
                     </figcaption>
                 </figure>
             </td>
             <td>
-                <div th:text="#{topic.reply.published(${topic.dateOfPublication})}"
-                     class="reply-published small text-right">published on
+                <div class="reply-published small text-right">
+                    <span th:text="#{topic.reply.published(${topic.dateOfPublication})}">published on</span>&nbsp;&nbsp;
+                    <span th:if="${topic.isChanged}"
+                          th:text="#{topic.reply.changed(${topic.dateOfChange})}">changed on</span>
                 </div>
-                <div th:text="${topic.text}"></div>
+                <div th:utext="${#strings.replace(#strings.escapeXml(topic.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+                <div sec:authorize="isAuthenticated()" class="container">
+                    <hr/>
+                    <div class="row">
+                        <div class="col">
+                            <a sec:authorize="${hasRole('MODERATOR')}" th:href="@{/topic/{id}/delete(id=${topic.id})}"
+                               th:text="#{topic.reply.btn.delete}" class="btn btn-danger btn-sm">Delete</a>
+                            <a sec:authorize="${hasRole('MODERATOR')}" th:href="@{/topic/{id}/edit(id=${topic.id})}"
+                               th:text="#{topic.reply.btn.moderate}" class="btn btn-warning btn-sm">Moderate</a>
+                        </div>
+                        <div sec:authorize="${hasRole('USER')}" th:switch="${userId==topic.user.id}"
+                             class="col text-right">
+                            <a th:case="true" th:href="@{/topic/{id}/edit(id=${topic.id})}"
+                               th:text="#{topic.reply.btn.edit}"
+                               class="btn btn-outline-secondary btn-sm">Edit</a>
+                            <a th:case="false" th:href="@{/reply/add(topic_id=${topic.id})}"
+                               th:text="#{topic.reply.btn.reply}"
+                               class="btn btn-outline-primary btn-sm">Reply</a>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
-
+        <!--Replies-->
         <tr th:each="reply : ${replies}">
-            <td class="text-center">
+            <td class="text-center bg-light">
                 <figure class="figure">
-                    <img th:src="${topic.user.photoExist} ? '/photo?id=' + ${topic.user.photo.id}: @{/images/user_no_image.png}"
-                         src="" class="img-thumbnail user-photo" th:alt="${topic.user.username}"/>
+                    <img th:src="${reply.user.photoExist} ? '/photo?id=' + ${reply.user.photo.id}: @{/images/user_no_image.png}"
+                         src="" class="img-thumbnail user-photo" th:alt="${reply.user.username}"/>
                     <figcaption class="figure-caption">
                         <span th:text="${reply.user.username}">username</span><br/>
-                        <span th:text="#{topic.user.replies(${reply.user.replies.size()})}">replies</span>
+                        <span th:text="#{topic.user.posts(${reply.user.countPosts})}">posts</span>
                     </figcaption>
                 </figure>
             </td>
             <td>
-                <div th:text="#{topic.reply.published(${reply.dateOfPublication})}"
-                     class="reply-published small text-right">published on
+                <div class="reply-published small text-right">
+                    <span th:text="#{topic.reply.published(${reply.dateOfPublication})}">published</span>&nbsp;&nbsp;
+                    <span th:if="${reply.isChanged}"
+                          th:text="#{topic.reply.changed(${reply.dateOfChange})}">changed</span>
                 </div>
-                <div th:text="${reply.text}"></div>
+                <blockquote th:if="${reply.replyTo!=null}" class="blockquote bg-light">
+                    <div class="reply-published small text-left">
+                        <span th:text="#{topic.reply.published(${reply.replyTo.dateOfPublication})}">published</span>&nbsp;&nbsp;
+                        <span th:if="${reply.replyTo.isChanged}"
+                              th:text="#{topic.reply.changed(${reply.replyTo.dateOfChange})}">changed</span>
+                    </div>
+                    <div th:utext="${#strings.replace(#strings.escapeXml(reply.replyTo.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+                    <footer th:text="${reply.replyTo.user.username}" class="blockquote-footer">username</footer>
+                </blockquote>
+                <div th:utext="${#strings.replace(#strings.escapeXml(reply.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+                <div sec:authorize="isAuthenticated()" class="container">
+                    <hr/>
+                    <div class="row">
+                        <div class="col">
+                            <a sec:authorize="${hasRole('MODERATOR')}" th:href="@{/reply/{id}/delete(id=${reply.id})}"
+                               href="#"
+                               th:text="#{topic.reply.btn.delete}" class="btn btn-danger btn-sm">Delete</a>
+                            <a sec:authorize="${hasRole('MODERATOR')}" th:href="@{/reply/{id}/edit(id=${reply.id})}"
+                               href="#"
+                               th:text="#{topic.reply.btn.moderate}" class="btn btn-warning btn-sm">Moderate</a>
+                        </div>
+                        <div sec:authorize="${hasRole('USER')}" th:switch="${userId==reply.user.id}"
+                             class="col text-right">
+                            <a th:case="true" th:href="@{/reply/{id}/edit(id=${reply.id})}"
+                               th:text="#{topic.reply.btn.edit}"
+                               class="btn btn-outline-secondary btn-sm">Edit</a>
+                            <a th:case="false" th:href="@{/reply/add(topic_id=${topic.id},reply_id=${reply.id})}"
+                               th:text="#{topic.reply.btn.reply}"
+                               class="btn btn-outline-primary btn-sm">Reply</a>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
-
         </tbody>
     </table>
-    <a th:href="@{/reply/add/?topic_id={id}(id=${topic.id})}" class="btn btn-primary">Reply to this topic</a>
+    <a th:href="@{/reply/add/?topic_id={id}(id=${topic.id})}" th:text="#{topic.btn.reply}"
+       class="btn btn-primary btn-lg">Reply</a>
 </div>
 </body>
 </html>
