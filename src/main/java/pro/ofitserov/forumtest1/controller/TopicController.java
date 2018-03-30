@@ -15,7 +15,6 @@ import pro.ofitserov.forumtest1.entity.Reply;
 import pro.ofitserov.forumtest1.entity.Topic;
 import pro.ofitserov.forumtest1.repository.ReplyRepository;
 import pro.ofitserov.forumtest1.repository.TopicRepository;
-import pro.ofitserov.forumtest1.repository.UserRepository;
 import pro.ofitserov.forumtest1.response.ResourceNotFoundException;
 import pro.ofitserov.forumtest1.service.UserService;
 
@@ -28,18 +27,15 @@ import java.util.Objects;
 @RequestMapping("/topic")
 public class TopicController {
 
-    @Autowired
     private UserService userService;
-
     private TopicRepository topicRepository;
     private ReplyRepository replyRepository;
-    private UserRepository userRepository;
 
     @Autowired
-    public TopicController(TopicRepository topicRepository, ReplyRepository replyRepository, UserRepository userRepository, UserService userService) {
+    public TopicController(TopicRepository topicRepository, ReplyRepository replyRepository, UserService userService) {
         this.topicRepository = topicRepository;
         this.replyRepository = replyRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping("/add")

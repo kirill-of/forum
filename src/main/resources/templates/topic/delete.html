@@ -10,9 +10,9 @@
     <table class="table table-bordered box-shadow bg-white">
         <tbody>
         <tr>
-            <td class="text-center bg-light" style="width:125px;">
+            <td class="text-center bg-light user-info">
                 <figure class="figure">
-                    <img th:src="${topic.user.photoExist} ? '/photo?id=' + ${topic.user.photo.id}: @{/images/user_no_image.png}"
+                    <img th:src="${topic.user.photoExist} ? ('/photo?id=' + ${topic.user.photo.id}): ${T(pro.ofitserov.forumtest1.util.ForumConstants).PHOTO_DEFAULT}"
                          src="" class="img-thumbnail user-photo" th:alt="${topic.user.username}"/>
                     <figcaption class="figure-caption">
                         <span th:text="${topic.user.username}">username</span><br/>

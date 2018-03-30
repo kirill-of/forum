@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pro.ofitserov.forumtest1.controller.form.UserRegistrationForm;
 import pro.ofitserov.forumtest1.controller.validator.UserFormValidator;
 import pro.ofitserov.forumtest1.entity.User;
-import pro.ofitserov.forumtest1.repository.UserRepository;
 import pro.ofitserov.forumtest1.service.UserService;
 
 import javax.validation.Valid;
@@ -21,13 +20,11 @@ import java.util.Date;
 public class AuthController {
     private UserService userService;
     private UserFormValidator userFormValidator;
-    private UserRepository userRepository;
 
     @Autowired
-    public AuthController(UserService userService, UserFormValidator userFormValidator, UserRepository userRepository) {
+    public AuthController(UserService userService, UserFormValidator userFormValidator) {
         this.userService = userService;
         this.userFormValidator = userFormValidator;
-        this.userRepository = userRepository;
     }
 
     @InitBinder
@@ -63,15 +60,12 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login(Model model, String error, String logout) {
+    public String login(Model model, String error) {
 
         model.addAttribute("title", "Sign In");
 
         if (error != null)
             model.addAttribute("error", "Your username and password is invalid.");
-
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
 
         return "auth/login";
     }

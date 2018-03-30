@@ -20,14 +20,17 @@ public class UserService implements UserDetailsService {
 
     private static final long ID_ROLE_FOR_NEW_USER = 1L;
 
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -60,20 +63,22 @@ public class UserService implements UserDetailsService {
         return (Objects.nonNull(user) && (user.getId().equals(id)));
     }
 
-    public boolean isUserLogged() {
+    public Long getCurrentUserId() {
         Object object = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (Objects.nonNull(object)) {
             try {
                 UserDetails userDetails = (UserDetails) object;
-                return true;
+                User user;
+                if (userDetails instanceof User) {
+                    user = (User) userDetails;
+                    return user.getId();
+                } else {
+                    return null;
+                }
             } catch (Exception e) {
-                return false;
+                return null;
             }
         }
-        return false;
-    }
-
-    public Long getCurrentUserId() {
-        return isUserLogged() ? getCurrentUser().getId() : null;
+        return null;
     }
 }

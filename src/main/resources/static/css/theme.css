@@ -39,12 +39,15 @@ label.error {
     height: 100px;
 }
 
+.user-info {
+    width: 125px;
+}
+
 .blockquote {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
     padding: .5rem;
     margin: .25rem;
-    border-width: .2rem;
-    border: solid #f7f7f9;
+    border: .2rem solid #f7f7f9;
 }

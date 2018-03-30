@@ -15,8 +15,8 @@
                 <span th:text="#{profile.label.photo}">photo</span>
             </td>
             <td class="w-65">
-                <img th:src="${user.photoExist}? '/photo?id=' + ${user.photo.id} :@{/images/user_no_image.png}" src=""
-                     class="img-thumbnail user-photo" alt="no image"/><br/>
+                <img th:src="${user.photoExist} ? ('/photo?id=' + ${user.photo.id}) : ${T(pro.ofitserov.forumtest1.util.ForumConstants).PHOTO_DEFAULT}"
+                     src="" class="img-thumbnail user-photo" alt=""/><br/>
 
                 <a th:href="@{/profile/edit/photo}" th:text="#{profile.btn.edit.photo}"
                    class="btn btn-link">Edit</a>

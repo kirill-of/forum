@@ -64,13 +64,15 @@ public class ReplyController {
         Topic topic;
         Reply replyTo = null;
 
-        if (Objects.isNull(topicId) || Objects.isNull(topic = topicRepository.findOne(topicId))) {
+        if (Objects.isNull(topicId) || !topicRepository.exists(topicId)) {
             throw new ResourceNotFoundException();
         } else {
+            topic = topicRepository.findOne(topicId);
             model.addAttribute("topic", topic);
         }
 
-        if (Objects.nonNull(replyId) && Objects.nonNull(replyTo = replyRepository.findOne(replyId))) {
+        if (Objects.nonNull(replyId) && !replyRepository.exists(replyId)) {
+            replyTo = replyRepository.findOne(replyId);
             model.addAttribute("replyTo", replyTo);
         }
 
@@ -172,7 +174,7 @@ public class ReplyController {
     }
 
     @GetMapping("/{id}")
-    public String view() {
+    public String view(@PathVariable("id") String id) {
         return "redirect:/";
     }
 }

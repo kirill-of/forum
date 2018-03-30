@@ -2,7 +2,6 @@ package pro.ofitserov.forumtest1.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotEmpty;
 import pro.ofitserov.forumtest1.util.ForumConstants;
 
