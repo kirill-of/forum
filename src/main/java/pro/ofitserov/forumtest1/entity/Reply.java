@@ -24,10 +24,12 @@ public class Reply {
     @Setter
     private String text;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Getter
     @Setter
     private Date dateOfPublication;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Getter
     @Setter
     private Date dateOfChange;

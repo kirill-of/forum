@@ -1,6 +1,8 @@
 package pro.ofitserov.forumtest1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
@@ -79,18 +81,16 @@ public class TopicController {
 
 
     @GetMapping("/{id}")
-    public String view(@PathVariable Long id, ModelMap model) {
+    public String view(@PathVariable Long id, ModelMap model, @PageableDefault(sort = {"dateOfPublication"}, value = 10) Pageable pageable) {
         Topic topic = topicRepository.findOne(id);
 
         if (topic == null) {
             throw new ResourceNotFoundException();
         }
 
-        List<Reply> replies = replyRepository.findByTopic(topic);
-
         model.addAttribute("title", topic.getTitle());
         model.addAttribute("topic", topic);
-        model.addAttribute("replies", replies);
+        model.addAttribute("replies", replyRepository.findByTopic(topic, pageable));
         model.addAttribute("userId", userService.getCurrentUserId());
 
         return "topic/view";

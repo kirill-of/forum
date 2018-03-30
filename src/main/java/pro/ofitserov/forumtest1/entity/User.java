@@ -42,10 +42,10 @@ public class User implements UserDetails {
     @Setter
     private String password;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Getter
     @Setter
     private Date dateOfRegistration;
-
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @Getter
