@@ -78,6 +78,15 @@ public class User implements UserDetails {
     @Setter
     private Set<Role> roles;
 
+    public boolean getHasRoleById(Long roleId) {
+        for (Role role : roles) {
+            if (role.getId().equals(roleId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;

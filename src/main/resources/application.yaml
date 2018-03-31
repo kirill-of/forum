@@ -1,5 +1,5 @@
 spring:
-  profiles.active: dev
+  profiles.active: ${FORUM_ACTIVE_PROFILE:dev}
   application:
     name: myforum
   http:
@@ -26,13 +26,9 @@ server:
 spring:
   profiles: production
   jpa:
-    database: POSTGRESQL
-    show-sql: true
     hibernate:
       ddl-auto: create-drop
   datasource:
-    platform: postgres
-    url: jdbc:postgres://auclzpmuxrdiks:a8c4f8b4b82d01bbe16765e78be3b225413acfce8766bae3cdc7e2c2b27afda6@ec2-54-247-81-88.eu-west-1.compute.amazonaws.com:5432/d2v367lnlidnq6
-    username: auclzpmuxrdiks
-    password: a8c4f8b4b82d01bbe16765e78be3b225413acfce8766bae3cdc7e2c2b27afda6
-    driverClassName: org.postgresql.Driver
+    url: ${FORUM_DB_CONNECTION_URL}
+    username: ${FORUM_DB_USER}
+    password: ${FORUM_DB_PASSWORD}

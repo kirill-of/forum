@@ -13,16 +13,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pro.ofitserov.forumtest1.entity.Reply;
 import pro.ofitserov.forumtest1.entity.Topic;
 import pro.ofitserov.forumtest1.repository.ReplyRepository;
 import pro.ofitserov.forumtest1.repository.TopicRepository;
 import pro.ofitserov.forumtest1.response.ResourceNotFoundException;
 import pro.ofitserov.forumtest1.service.UserService;
+import pro.ofitserov.forumtest1.util.ForumConstants;
 
 import javax.validation.Valid;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -81,7 +80,7 @@ public class TopicController {
 
 
     @GetMapping("/{id}")
-    public String view(@PathVariable Long id, ModelMap model, @PageableDefault(sort = {"dateOfPublication"}, value = 10) Pageable pageable) {
+    public String view(@PathVariable Long id, ModelMap model, @PageableDefault(sort = {"dateOfPublication"}, value = ForumConstants.PAGE_DEFAULT_SIZE) Pageable pageable) {
         Topic topic = topicRepository.findOne(id);
 
         if (topic == null) {

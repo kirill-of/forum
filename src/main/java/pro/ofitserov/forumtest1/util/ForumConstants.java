@@ -15,6 +15,7 @@ public class ForumConstants {
 
     public static final int PHOTO_WIDTH = 100;
     public static final int PHOTO_HEIGHT = 100;
-
     public static final String PHOTO_DEFAULT = "/images/user_no_image.png";
+
+    public static final int PAGE_DEFAULT_SIZE = 15;
 }

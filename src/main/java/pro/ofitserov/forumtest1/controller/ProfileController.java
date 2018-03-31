@@ -26,7 +26,7 @@ import java.util.Objects;
 
 
 @Controller
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize(value = "hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 public class ProfileController {
 
     private UserService userService;
@@ -45,14 +45,14 @@ public class ProfileController {
     @GetMapping("/profile")
     public String profile(Model model) {
         model.addAttribute("title", "Profile");
-        model.addAttribute("user", userRepository.findById(userService.getCurrentUser().getId()));
+        model.addAttribute("user", userRepository.findOne(userService.getCurrentUser().getId()));
         return "profile/view";
     }
 
     @GetMapping("/profile/edit/photo")
     public String editPhoto(Model model) {
         model.addAttribute("title", "Edit photo");
-        model.addAttribute("user", userRepository.findById(userService.getCurrentUser().getId()));
+        model.addAttribute("user", userRepository.findOne(userService.getCurrentUser().getId()));
         return "profile/edit/photo";
     }
 
@@ -66,7 +66,7 @@ public class ProfileController {
                         .forceSize(ForumConstants.PHOTO_WIDTH, ForumConstants.PHOTO_HEIGHT)
                         .toOutputStream(byteArrayOutputStream);
 
-                User user = userRepository.findById(userService.getCurrentUser().getId());
+                User user = userRepository.findOne(userService.getCurrentUser().getId());
                 Photo oldUserPhoto = photoRepository.findByUserId(user.getId());
 
                 if (Objects.nonNull(oldUserPhoto)) {
@@ -102,7 +102,7 @@ public class ProfileController {
             return "profile/edit/password";
         }
 
-        User user = userRepository.findById(userService.getCurrentUser().getId());
+        User user = userRepository.findOne(userService.getCurrentUser().getId());
         user.setPassword(passwordEncoder.encode(changePasswordForm.getNewPassword()));
         userRepository.save(user);
 
