@@ -1,5 +1,5 @@
 spring:
-  profiles.active: ${FORUM_ACTIVE_PROFILE:dev}
+  profiles.active: production
   application:
     name: myforum
   http:
@@ -34,7 +34,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: false
   datasource:
-    url: ${FORUM_CONNECTION_URL}
-    username: ${FORUM_DB_USER}
-    password: ${FORUM_DB_PASSWORD}
+    url: jdbc:mysql://eu-cdbr-west-02.cleardb.net/heroku_af0b266690d15bd?reconnect=true
+    username: b206f97360abee
+    password: e7d860af
     driver-class-name: com.mysql.jdbc.Driver
