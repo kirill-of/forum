@@ -16,13 +16,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private UserDetailsService userDetailsService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    public WebSecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -30,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");*/
         auth
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder());
+                .passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
