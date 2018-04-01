@@ -8,7 +8,9 @@ import pro.ofitserov.forumtest1.util.ForumConstants;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Reply {
@@ -52,12 +54,14 @@ public class Reply {
     @Setter
     private Topic topic;
 
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "REPLY_ID")
     @Getter
     @Setter
     private Reply replyTo;
+
+    @OneToMany(mappedBy = "replyTo", cascade = CascadeType.ALL)
+    private Set<Reply> replies = new HashSet<Reply>();
 
     public boolean getIsChanged() {
         return Objects.nonNull(dateOfChange);

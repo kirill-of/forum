@@ -8,8 +8,10 @@
         <a class="navbar-brand text-dark my-0 mr-md-auto" th:href="@{/}" href="#" th:text="#{header.siteName}">My
             Forum</a>
         <nav class="my-2 my-md-0 mr-md-3">
+            <a th:href="@{/}" th:text="#{header.menu.home}" class="p-2 text-dark" href="#">home</a>
+            <a th:href="@{http://ofitserov.pro/report/}" th:text="#{header.menu.report}" class="p-2 text-dark" href="#">report</a>
             <a sec:authorize="${hasRole('ADMIN')}" th:href="@{/admin/users}" th:text="#{header.menu.users}"
-               class="p-2 text-dark" href="#">Menu</a>
+               class="p-2 text-dark" href="#">users</a>
         </nav>
         <span th:utext="#{header.youAreLoggedAs(${#authentication.name})}" class="mx-1">You are logged as:</span>
         <a th:href="@{/profile}" th:text="#{header.profile}" class="mx-1 btn btn-outline-info">Profile</a>

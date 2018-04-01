@@ -7,8 +7,7 @@
         <h1 th:text="${title}">Reply</h1>
     </div>
 
-    <form th:action="@{/reply/add}" th:object="${reply}" method="POST"
-          class="form-sign needs-validation">
+    <form th:action="@{/reply/add}" th:object="${reply}" method="POST" class="form-sign needs-validation">
         <!--Topic-->
         <div th:if="${topic!=null}">
             <label th:text="#{reply.label.topic}">topic</label>

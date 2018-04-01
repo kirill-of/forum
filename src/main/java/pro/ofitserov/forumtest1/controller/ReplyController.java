@@ -71,9 +71,10 @@ public class ReplyController {
             model.addAttribute("topic", topic);
         }
 
-        if (Objects.nonNull(replyId) && !replyRepository.exists(replyId)) {
+        if (Objects.nonNull(replyId) && replyRepository.exists(replyId)) {
             replyTo = replyRepository.findOne(replyId);
             model.addAttribute("replyTo", replyTo);
+            reply.setReplyTo(replyTo);
         }
 
         if (result.hasErrors()) {
