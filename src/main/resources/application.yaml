@@ -29,6 +29,6 @@ spring:
     hibernate:
       ddl-auto: create-drop
   datasource:
-    url: jdbc:mysql://b76bd918e77c2d:515c5fa0@eu-cdbr-west-02.cleardb.net/heroku_f9bafd14ded1286?reconnect=true
+    url: jdbc:mysql://eu-cdbr-west-02.cleardb.net/heroku_f9bafd14ded1286?reconnect=true
     username: b76bd918e77c2d
     password: 515c5fa0
