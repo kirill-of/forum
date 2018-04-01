@@ -26,9 +26,10 @@ server:
 spring:
   profiles: production
   jpa:
+    database-platform : org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql : false
     hibernate:
       ddl-auto: create-drop
-  database-platform : org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
     driver-class-name : com.mysql.jdbc.Driver
     url: jdbc:mysql://eu-cdbr-west-02.cleardb.net/heroku_af0b266690d15bd?reconnect=true
