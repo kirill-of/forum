@@ -30,7 +30,7 @@ label.error {
     width: 100%;
     margin-top: .25rem;
     font-weight: normal;
-    font-size: 80%;
+    font-size: .8rem;
     color: #dc3545;
 }
 
@@ -50,4 +50,28 @@ label.error {
     padding: .5rem;
     margin: .25rem;
     border: .2rem solid #f7f7f9;
+}
+
+.bottom-user-not-authenticated {
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.list-admin li {
+    padding-top: .75rem;
+    vertical-align: middle;
+}
+
+.list-admin li ul {
+    padding-top: .75rem;
+}
+
+.forum-desc {
+    margin-bottom: .25rem;
+    color: #212529;
+}
+
+.forum-subforums {
+    color: #343a40;
 }

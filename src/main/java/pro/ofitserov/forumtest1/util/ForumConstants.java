@@ -10,12 +10,16 @@ public class ForumConstants {
     public static final int TITLE_LENGTH_MIN = 5;
     public static final int TITLE_LENGTH_MAX = 255;
 
+    public static final int DESCRIPTION_LENGTH_MIN = 5;
+    public static final int DESCRIPTION_LENGTH_MAX = 300;
+
     public static final int TEXT_LENGTH_MIN = 5;
     public static final int TEXT_LENGTH_MAX = 2000;
+
 
     public static final int PHOTO_WIDTH = 100;
     public static final int PHOTO_HEIGHT = 100;
     public static final String PHOTO_DEFAULT = "/images/user_no_image.png";
 
-    public static final int PAGE_DEFAULT_SIZE = 15;
+    public static final int PAGE_DEFAULT_SIZE = 5;
 }

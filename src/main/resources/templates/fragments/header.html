@@ -4,15 +4,19 @@
 <body>
 <header th:fragment="header"
         class="navbar navbar-expand navbar-white bg-white flex-column flex-md-row border-bottom box-shadow">
+    <a th:href="@{/}" href="#" th:text="#{header.siteName}" class="navbar-brand text-dark my-0 mr-md-auto">My Forum</a>
+
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a th:href="@{/}" th:text="#{header.menu.home}" class="p-2 text-dark" href="#">home</a>
+        <a th:href="@{http://ofitserov.pro/report/}" th:target="_blank" th:text="#{header.menu.report}"
+           class="p-2 text-dark" href="#">report</a>
+        <a sec:authorize="${hasRole('ADMIN')}" th:href="@{/admin/users}" th:text="#{header.menu.users}"
+           class="p-2 text-dark" href="#">users</a>
+        <a sec:authorize="${hasRole('ADMIN')}" th:href="@{/admin/sections}" th:text="#{header.menu.sections}"
+           class="p-2 text-dark" href="#">sections</a>
+    </nav>
+
     <div sec:authorize="isAuthenticated()" th:remove="tag">
-        <a class="navbar-brand text-dark my-0 mr-md-auto" th:href="@{/}" href="#" th:text="#{header.siteName}">My
-            Forum</a>
-        <nav class="my-2 my-md-0 mr-md-3">
-            <a th:href="@{/}" th:text="#{header.menu.home}" class="p-2 text-dark" href="#">home</a>
-            <a th:href="@{http://ofitserov.pro/report/}" th:text="#{header.menu.report}" class="p-2 text-dark" href="#">report</a>
-            <a sec:authorize="${hasRole('ADMIN')}" th:href="@{/admin/users}" th:text="#{header.menu.users}"
-               class="p-2 text-dark" href="#">users</a>
-        </nav>
         <span th:utext="#{header.youAreLoggedAs(${#authentication.name})}" class="mx-1">You are logged as:</span>
         <a th:href="@{/profile}" th:text="#{header.profile}" class="mx-1 btn btn-outline-info">Profile</a>
         <form th:action="@{/logout}"
@@ -22,7 +26,6 @@
     </div>
 
     <div sec:authorize="isAnonymous()" th:remove="tag">
-        <a href="/" th:text="#{header.siteName}" class="navbar-brand text-dark my-0 mr-md-auto">My Forum</a>
         <a th:href="@{/login}" th:text="#{header.signIn}" class="mx-1 btn btn-outline-secondary">Sign In</a>
         <a th:href="@{/registration}" th:text="#{header.signUp}" class="mx-1 btn btn-outline-primary">Sign Up</a>
     </div>

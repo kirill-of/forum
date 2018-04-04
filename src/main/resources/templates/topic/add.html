@@ -8,6 +8,7 @@
     </div>
     <form th:action="@{/topic/add}" th:object="${topic}" method="POST" class="form-sign needs-validation">
         <input type="hidden" th:field="*{id}" />
+        <input type="hidden" name="section_id" th:value="${section.id}"/>
         <div class="form-group">
             <label th:text="#{topic.label.title}" for="title">Title</label>
             <input type="text" class="form-control" id="title" th:field="*{title}" th:required="required"/>

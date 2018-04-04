@@ -2,6 +2,7 @@ package pro.ofitserov.forumtest1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,12 +10,11 @@ import org.springframework.security.web.servletapi.SecurityContextHolderAwareReq
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import pro.ofitserov.forumtest1.entity.Section;
 import pro.ofitserov.forumtest1.entity.Topic;
 import pro.ofitserov.forumtest1.repository.ReplyRepository;
+import pro.ofitserov.forumtest1.repository.SectionRepository;
 import pro.ofitserov.forumtest1.repository.TopicRepository;
 import pro.ofitserov.forumtest1.response.ResourceNotFoundException;
 import pro.ofitserov.forumtest1.service.UserService;
@@ -31,17 +31,26 @@ public class TopicController {
     private UserService userService;
     private TopicRepository topicRepository;
     private ReplyRepository replyRepository;
+    private SectionRepository sectionRepository;
 
     @Autowired
-    public TopicController(TopicRepository topicRepository, ReplyRepository replyRepository, UserService userService) {
+    public TopicController(TopicRepository topicRepository, ReplyRepository replyRepository, UserService userService, SectionRepository sectionRepository) {
         this.topicRepository = topicRepository;
         this.replyRepository = replyRepository;
         this.userService = userService;
+        this.sectionRepository = sectionRepository;
     }
 
     @GetMapping("/add")
     @PreAuthorize(value = "hasRole('USER') or hasRole('MODERATOR')")
-    public String add(ModelMap model) {
+    public String add(ModelMap model, @RequestParam("section_id") Long sectionId) {
+
+        if (Objects.isNull(sectionId) || !sectionRepository.exists(sectionId)) {
+            throw new ResourceNotFoundException();
+        } else {
+            model.addAttribute("section", sectionRepository.findOne(sectionId));
+        }
+
         model.addAttribute("title", "Add topic");
         model.addAttribute("topic", new Topic());
         return "topic/add";
@@ -49,8 +58,17 @@ public class TopicController {
 
     @PostMapping("/add")
     @PreAuthorize(value = "hasRole('USER') or hasRole('MODERATOR')")
-    public String add(@Valid Topic topic, BindingResult result, ModelMap model, SecurityContextHolderAwareRequestWrapper request) {
+    public String add(@Valid Topic topic, BindingResult result, ModelMap model, @RequestParam("section_id") Long sectionId, SecurityContextHolderAwareRequestWrapper request) {
         model.addAttribute("title", "Update topic");
+
+        Section section = null;
+
+        if (Objects.isNull(sectionId) || !sectionRepository.exists(sectionId)) {
+            throw new ResourceNotFoundException();
+        } else {
+            section = sectionRepository.findOne(sectionId);
+            model.addAttribute("section", section);
+        }
 
         if (result.hasErrors()) {
             return "topic/add";
@@ -59,6 +77,7 @@ public class TopicController {
         if (Objects.isNull(topic.getId())) {
             topic.setUser(userService.getCurrentUser());
             topic.setDateOfPublication(new Date());
+            topic.setSection(section);
         } else {
             Topic editTopic = topicRepository.findOne(topic.getId());
 
@@ -80,7 +99,7 @@ public class TopicController {
 
 
     @GetMapping("/{id}")
-    public String view(@PathVariable Long id, ModelMap model, @PageableDefault(sort = {"dateOfPublication"}, value = ForumConstants.PAGE_DEFAULT_SIZE) Pageable pageable) {
+    public String view(@PathVariable Long id, ModelMap model, @PageableDefault(sort = {"dateOfPublication"}, value = ForumConstants.PAGE_DEFAULT_SIZE, direction = Sort.Direction.ASC) Pageable pageable) {
         Topic topic = topicRepository.findOne(id);
 
         if (topic == null) {
@@ -101,7 +120,7 @@ public class TopicController {
 
         Topic topic = topicRepository.findOne(id);
 
-        if (topic == null) {
+        if (Objects.isNull(topic)) {
             throw new ResourceNotFoundException();
         }
 
@@ -111,6 +130,7 @@ public class TopicController {
 
         model.addAttribute("title", "Edit topic");
         model.addAttribute("topic", topic);
+        model.addAttribute("section", topic.getSection());
 
         return "topic/add";
     }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/default :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1 th:text="${title}">Title</h1>
+    </div>
+    <div class="list-admin">
+    <ul th:each="section : ${sections}">
+        <li>
+            <span th:text="${section.title}"></span>
+            <a th:href="@{/admin/sections/{id}/edit(id=${section.id})}"
+               th:text="#{admin.tr.edit}" class="btn btn-outline-info btn-sm">edit</a>
+            <a th:href="@{/admin/sections/{id}/delete(id=${section.id})}"
+               th:text="#{admin.tr.delete}" class="btn btn-outline-danger btn-sm">delete</a>
+            <div th:replace="fragments/subsection :: subsection(section=${section})" th:remove="tag"></div>
+        </li>
+    </ul>
+        </div>
+    <hr/>
+    <a th:href="@{/admin/sections/add}" th:text="#{admin.sections.btn.add}"
+       class="btn btn-primary btn-lg">add</a>
+</div>
+</body>
+</html>

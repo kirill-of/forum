@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/default :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1 th:text="${title}">Title</h1>
+    </div>
+    <form th:action="@{/admin/sections/{id}/delete(id=${section.id})}" th:object="${section}" method="POST"
+          class="form-sign needs-validation">
+        <input type="hidden" th:field="*{id}"/>
+        <table class="table table-bordered box-shadow">
+            <tbody>
+            <tr>
+                <td class="w-40"><span th:text="#{admin.sections.label.title}">title</span></td>
+                <td class="w-60"><span th:text="${section.title}">title</span></td>
+            </tr>
+            <tr>
+                <td><span th:text="#{admin.sections.label.description}">description</span></td>
+                <td><span th:text="${section.description}">description</span></td>
+            </tr>
+            <tr th:if="${section.parent!=null}">
+                <td><span th:text="#{admin.sections.label.parent}">parent</span></td>
+                <td><span th:text="${section.parent.title}">parent</span></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <input type="submit" th:value="${title}" class="btn btn-lg btn-danger" value="Submit"/>
+        <a th:href="@{/admin/sections}" href="#" class="btn btn-lg btn-outline-secondary"
+           th:text="#{btn.cancel}">cancel</a>
+    </form>
+</div>
+</body>
+</html>

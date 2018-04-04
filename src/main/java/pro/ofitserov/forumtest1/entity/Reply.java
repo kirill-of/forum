@@ -61,7 +61,7 @@ public class Reply {
     private Reply replyTo;
 
     @OneToMany(mappedBy = "replyTo", cascade = CascadeType.ALL)
-    private Set<Reply> replies = new HashSet<Reply>();
+    private Set<Reply> replies = new HashSet<>();
 
     public boolean getIsChanged() {
         return Objects.nonNull(dateOfChange);

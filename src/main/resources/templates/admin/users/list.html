@@ -9,7 +9,7 @@
     <table class="table table-striped box-shadow">
         <thead>
         <tr>
-            <th th:text="#{admin.users.th.id}" scope="col">th</th>
+            <th th:text="#{admin.th.id}" scope="col">th</th>
             <th th:text="#{admin.users.th.username}" scope="col">th</th>
             <th th:text="#{admin.users.th.email}" scope="col">th</th>
             <th th:text="#{admin.users.th.dateOfRegistration}" scope="col">th</th>
@@ -27,7 +27,7 @@
             <td><span th:text="${user.countPosts}">posts</span></td>
             <td><span th:text="${user.authorities}">posts</span></td>
             <td><a th:href="@{/admin/users/{id}/edit(id=${user.id})}"
-                   th:text="#{admin.users.tr.edit}"
+                   th:text="#{admin.tr.edit}"
                    class="btn btn-outline-primary btn-sm">tr</a></td>
         </tr>
         </tbody>

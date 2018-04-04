@@ -53,6 +53,12 @@ public class Topic {
     @Setter
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "SECTION_ID")
+    @Getter
+    @Setter
+    private Section section;
+
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     @Getter
     @Setter

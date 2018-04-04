@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="subsection" th:remove="tag">
+    <ul>
+        <li th:each="subsection : ${section.subsections}">
+            <span th:text="${subsection.title}">title</span>
+            <a th:href="@{/admin/sections/{id}/edit(id=${subsection.id})}"
+               th:text="#{admin.tr.edit}" class="btn btn-outline-info btn-sm">edit</a>
+            <a th:href="@{/admin/sections/{id}/delete(id=${subsection.id})}"
+               th:text="#{admin.tr.delete}" class="btn btn-outline-danger btn-sm">delete</a>
+            <div th:with="section = ${subsection}"
+                 th:include="fragments/subsection :: subsection" th:remove="tag"></div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

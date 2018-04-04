@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/default :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1 th:text="${title}">Title</h1>
+    </div>
+    <form th:action="@{/admin/sections/add}" th:object="${section}" method="POST" class="form-sign needs-validation">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group">
+            <label th:text="#{admin.sections.label.parent}">parent</label>
+            <select class="form-control" th:field="*{parent}">
+                <option th:value="null" th:text="#{admin.sections.option.upperLevel}">-</option>
+                <option th:each="sect : ${sections}" th:if="${sect.id!=section.id}"
+                        th:value="${sect.id}" th:text="${sect.title}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label th:text="#{admin.sections.label.title}" for="title">Title</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" th:required="required"/>
+            <label th:if="${#fields.hasErrors('title')}" class="error" style="display: inline-block;">
+                <ul>
+                    <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+                </ul>
+            </label>
+        </div>
+        <div class="form-group">
+            <label th:text="#{admin.sections.label.description}" for="description">Title</label>
+            <input type="text" class="form-control" id="description" th:field="*{description}" th:required="required"/>
+            <label th:if="${#fields.hasErrors('description')}" class="error" style="display: inline-block;">
+                <ul>
+                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                </ul>
+            </label>
+        </div>
+        <input type="submit" th:value="${title}" class="btn btn-lg btn-primary" value="Submit"/>
+        <a th:href="@{/admin/sections}" href="#" class="btn btn-lg btn-outline-secondary"
+           th:text="#{btn.cancel}">cancel</a>
+    </form>
+</div>
+
+<div th:fragment="scripts" th:remove="tag">
+    <script type="text/javascript" src="/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('.needs-validation').validate();
+        });
+    </script>
+</div>
+
+</body>
+</html>

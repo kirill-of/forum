@@ -109,17 +109,26 @@
         </tbody>
     </table>
     <nav th:if="${replies}">
-        <ul class="pagination" th:if="${replies.totalPages} gt 1">
+        <ul class="pagination" th:if="${replies.totalPages} > 1">
             <li th:each="pageNumber : ${#numbers.sequence(0, replies.totalPages - 1)}"
-                th:classappend="${replies.number eq pageNumber}?'active'" class="page-item">
+                th:classappend="${replies.number == pageNumber}?'active'" class="page-item">
                 <a th:href="@{/topic/{topic}(topic=${topic.id},page=${pageNumber},size=${replies.size})}"
                    th:text="${pageNumber + 1}" class="page-link" href="#">-</a>
             </li>
         </ul>
     </nav>
 
-    <a th:href="@{/reply/add(topic_id=${topic.id})}" th:text="#{topic.btn.reply}"
-       class="btn btn-primary btn-lg">Reply</a>
+
+    <div sec:authorize="isAuthenticated()" class="text-right pt-2">
+        <a th:href="@{/reply/add(topic_id=${topic.id})}" th:text="#{topic.btn.reply}"
+           class="btn btn-primary btn-lg text-center">Reply</a>
+    </div>
+
+    <div sec:authorize="isAnonymous()" th:remove="tag">
+        <div th:utext="#{bottom.userNotAuthenticated}"
+             class="text-secondary text-center pt-4 bottom-user-not-authenticated">userNotAuthenticated
+        </div>
+    </div>
 </div>
 </body>
 </html>

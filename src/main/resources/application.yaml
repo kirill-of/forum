@@ -1,5 +1,5 @@
 spring:
-  profiles.active: production
+  profiles.active: ${FORUM_ACTIVE_PROFILE:dev}
   application:
     name: myforum
   http:
@@ -15,7 +15,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/myforum
@@ -31,7 +31,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: false
   datasource:
     url: jdbc:mysql://eu-cdbr-west-02.cleardb.net/heroku_af0b266690d15bd?reconnect=true

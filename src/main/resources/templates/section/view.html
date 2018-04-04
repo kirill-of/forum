@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:include="layouts/default :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1 th:text="${section.title}">Title</h1>
+    </div>
+    <div class="forum-desc"><p th:text="${section.description}"></p>
+    </div>
+    <div th:if="${section.isParent}">
+        <!--Sub-forums-->
+        <h2 th:text="#{section.subsection}">Title</h2>
+        <table class="table table-bordered box-shadow bg-white">
+            <thead>
+            <tr>
+                <th class="w-75"><span th:text="#{section.title}">th</span></th>
+                <th><span th:text="#{section.topics}">th</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="subsection : ${section.subsections}">
+                <td><a th:href="@{/section/{id}/(id=${subsection.id})}" th:text="${subsection.title}">-</a></td>
+                <td th:text="${subsection.topics.size()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--Topics-->
+    <h2 th:text="#{section.topics}">Topics</h2>
+    <table class="table table-bordered box-shadow bg-white">
+        <thead>
+        <tr>
+            <th class="w-75"><span th:text="#{topics.topic}">Topic</span></th>
+            <th><span th:text="#{topics.replies}">Replies</span></th>
+            <th><span th:text="#{topics.author}">Author</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="topic : ${topics}">
+            <td><a th:href="@{/topic/{id}/(id=${topic.id})}" th:text="${topic.title}">-</a></td>
+            <td th:text="${topic.replies.size()}"></td>
+            <td th:text="${topic.user.username}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <nav th:if="${topics}">
+        <ul class="pagination" th:if="${topics.totalPages} > 1">
+            <li th:each="pageNumber : ${#numbers.sequence(0, topics.totalPages - 1)}"
+                th:classappend="${topics.number == pageNumber}?'active'" class="page-item">
+                <a th:href="@{/section/{section}(section=${section.id},page=${pageNumber},size=${topics.size})}"
+                   th:text="${pageNumber + 1}" class="page-link" href="#">-</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div sec:authorize="isAuthenticated()" class="text-right pt-2">
+        <a th:href="@{/topic/add(section_id=${section.id})}" th:text="#{topics.btn.new}" href="/topic/add"
+           class="btn btn-primary">Start New Topic</a>
+    </div>
+
+    <div sec:authorize="isAnonymous()" th:remove="tag">
+        <div th:utext="#{bottom.userNotAuthenticated}"
+             class="text-secondary text-center pt-4 bottom-user-not-authenticated">userNotAuthenticated
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
