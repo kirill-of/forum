@@ -9,4 +9,6 @@ import pro.ofitserov.forumtest1.entity.Topic;
 
 public interface ReplyRepository extends PagingAndSortingRepository<Reply, Long> {
     Page<Reply> findByTopic(Topic topic, Pageable pageable);
+
+    Page<Reply> findByTextContaining(String searchWord, Pageable pageable);
 }

@@ -17,7 +17,7 @@
         <tbody>
         <tr th:each="section : ${sections}">
             <td><a th:href="@{/section/{id}/(id=${section.id})}" th:text="${section.title}">-</a>
-                <div th:text="${section.description}" class="forum-desc">forum-desc</div>
+                <div th:text="${section.text}" class="forum-desc">forum-desc</div>
                 <div th:if="${section.isParent}" class="forum-subforums">
                     <span th:text="#{section.subsection}"></span>
                     <ul class="m-0">

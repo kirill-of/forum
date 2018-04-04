@@ -26,7 +26,7 @@ import java.util.Objects;
 
 
 @Controller
-@PreAuthorize(value = "hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+@PreAuthorize("isAuthenticated()")
 public class ProfileController {
 
     private UserService userService;
@@ -110,7 +110,7 @@ public class ProfileController {
     }
 
     @GetMapping("/profile/edit/")
-    public String index() {
+    public String edit() {
         return "redirect:/profile";
     }
 }

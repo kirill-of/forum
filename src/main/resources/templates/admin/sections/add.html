@@ -26,11 +26,11 @@
             </label>
         </div>
         <div class="form-group">
-            <label th:text="#{admin.sections.label.description}" for="description">Title</label>
-            <input type="text" class="form-control" id="description" th:field="*{description}" th:required="required"/>
-            <label th:if="${#fields.hasErrors('description')}" class="error" style="display: inline-block;">
+            <label th:text="#{admin.sections.label.description}" for="text">Title</label>
+            <input type="text" class="form-control" id="text" th:field="*{text}" th:required="required"/>
+            <label th:if="${#fields.hasErrors('text')}" class="error" style="display: inline-block;">
                 <ul>
-                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
+                    <li th:each="err : ${#fields.errors('text')}" th:text="${err}"></li>
                 </ul>
             </label>
         </div>

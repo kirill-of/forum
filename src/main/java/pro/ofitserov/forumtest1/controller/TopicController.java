@@ -61,7 +61,7 @@ public class TopicController {
     public String add(@Valid Topic topic, BindingResult result, ModelMap model, @RequestParam("section_id") Long sectionId, SecurityContextHolderAwareRequestWrapper request) {
         model.addAttribute("title", "Update topic");
 
-        Section section = null;
+        Section section;
 
         if (Objects.isNull(sectionId) || !sectionRepository.exists(sectionId)) {
             throw new ResourceNotFoundException();
@@ -165,7 +165,7 @@ public class TopicController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String redirect() {
         return "redirect:/";
     }
 }

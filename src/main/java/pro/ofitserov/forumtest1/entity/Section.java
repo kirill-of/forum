@@ -7,6 +7,7 @@ import pro.ofitserov.forumtest1.util.ForumConstants;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -26,10 +27,16 @@ public class Section {
     private String title;
 
     @NotEmpty
-    @Size(min = ForumConstants.DESCRIPTION_LENGTH_MIN, max = ForumConstants.DESCRIPTION_LENGTH_MAX)
+    @Size(min = ForumConstants.TEXT_LENGTH_MIN, max = ForumConstants.TEXT_LENGTH_MAX)
     @Getter
     @Setter
-    private String description;
+    private String text;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Getter
+    @Setter
+    private Date dateOfPublication;
+
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
     @Getter

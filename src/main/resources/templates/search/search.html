@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/default :: page">
+<body>
+<div th:fragment="content">
+    <div class="page-header">
+        <h1 th:text="${title}">Title</h1>
+    </div>
+    <form th:action="@{/search}" method="POST" class="form-sign needs-validation">
+        <div class="form-row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label th:text="#{search.select.label.searchWord}" for="searchWord">searchWord</label>
+                    <input type="text" name="search_word" id="searchWord" class="form-control"
+                           th:placeholder="${title}"
+                           th:required="required"/>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label th:text="#{search.select.label.searchIn}" for="searchIn">searchIn</label>
+                    <select name="search_in" id="searchIn" class="form-control">
+                        <option th:value="${T(pro.ofitserov.forumtest1.util.ForumConstants).SEARCH_IN_SECTIONS}"
+                                th:text="#{search.select.sections}">sections
+                        </option>
+                        <option th:value="${T(pro.ofitserov.forumtest1.util.ForumConstants).SEARCH_IN_TOPICS}"
+                                th:text="#{search.select.topics}">topics
+                        </option>
+                        <option th:value="${T(pro.ofitserov.forumtest1.util.ForumConstants).SEARCH_IN_REPLIES}"
+                                th:text="#{search.select.replies}">replies
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <input type="submit" th:value="${title}" class="btn btn-primary btn-lg" value="Submit"/>
+        </div>
+    </form>
+    <hr/>
+    <div th:if="${sections!=null}">
+        <h2 th:text="#{search.select.sections}">sections</h2>
+        <table class="table table-bordered box-shadow bg-white">
+            <tbody>
+            <tr th:each="section : ${sections}">
+                <td>
+                    <a th:href="@{/section/{id}/(id=${section.id})}" th:text="${section.title}">-</a><br/>
+                    <span th:text="${section.text}">-</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${topics!=null}">
+        <h2 th:text="#{search.select.topics}">topics</h2>
+        <table class="table table-bordered box-shadow bg-white">
+            <thead>
+            <tr>
+                <th class="w-75"><span th:text="#{topics.topic}">Topic</span></th>
+                <th><span th:text="#{topics.replies}">Replies</span></th>
+                <th><span th:text="#{topics.author}">Author</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="topic : ${topics}">
+                <td><a th:href="@{/topic/{id}/(id=${topic.id})}" th:text="${topic.title}">-</a></td>
+                <td th:text="${topic.replies.size()}"></td>
+                <td th:text="${topic.user.username}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${replies!=null}">
+        <h2 th:text="#{search.select.replies}">replies</h2>
+        <table th:each="reply : ${replies}" class="table table-bordered box-shadow bg-white">
+            <tbody>
+            <tr>
+                <td class="text-center bg-light user-info">
+                    <figure class="figure">
+                        <img th:src="${reply.user.photoExist} ? ('/photo?id=' + ${reply.user.photo.id}) : ${T(pro.ofitserov.forumtest1.util.ForumConstants).PHOTO_DEFAULT}"
+                             src="" class="img-thumbnail user-photo" th:alt="${reply.user.username}"/>
+                        <figcaption class="figure-caption">
+                            <span th:text="${reply.user.username}">username</span><br/>
+                            <span th:text="#{topic.user.posts(${reply.user.countPosts})}">posts</span>
+                        </figcaption>
+                    </figure>
+                </td>
+                <td>
+                    <div class="reply-published small text-right">
+                        <span th:text="#{topic.reply.published(${reply.dateOfPublication})}">published</span>&nbsp;&nbsp;
+                        <span th:if="${reply.isChanged}"
+                              th:text="#{topic.reply.changed(${reply.dateOfChange})}">changed</span>
+                    </div>
+                    <div th:utext="${#strings.replace(#strings.escapeXml(reply.text),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:fragment="scripts" th:remove="tag">
+    <script type="text/javascript" src="/webjars/jquery-validation/1.17.0/dist/jquery.validate.min.js"></script>
+    <script th:inline="javascript">
+        $(function () {
+            $('.needs-validation').validate();
+        });
+    </script>
+</div>
+
+</body>
+</html>

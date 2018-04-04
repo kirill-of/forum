@@ -170,7 +170,7 @@ public class ReplyController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String redirect() {
         return "redirect:/";
     }
 

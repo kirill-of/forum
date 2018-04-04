@@ -7,7 +7,7 @@
     <div class="page-header">
         <h1 th:text="${section.title}">Title</h1>
     </div>
-    <div class="forum-desc"><p th:text="${section.description}"></p>
+    <div class="forum-desc"><p th:text="${section.text}"></p>
     </div>
     <div th:if="${section.isParent}">
         <!--Sub-forums-->

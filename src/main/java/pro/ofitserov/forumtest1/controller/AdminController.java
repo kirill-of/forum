@@ -15,6 +15,7 @@ import pro.ofitserov.forumtest1.repository.UserRepository;
 import pro.ofitserov.forumtest1.response.ResourceNotFoundException;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -108,6 +109,11 @@ public class AdminController {
 
         if (Objects.nonNull(parentId) && sectionRepository.exists(parentId)) {
             section.setParent(sectionRepository.findOne(parentId));
+        }
+
+        if (Objects.isNull(section.getId())) {
+            section.setDateOfPublication(new Date());
+
         }
 
         sectionRepository.save(section);

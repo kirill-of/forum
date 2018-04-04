@@ -6,7 +6,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pro.ofitserov.forumtest1.repository.SectionRepository;
-import pro.ofitserov.forumtest1.repository.TopicRepository;
 
 @Controller
 @RequestMapping("/")
