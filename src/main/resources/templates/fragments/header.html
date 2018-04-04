@@ -14,6 +14,8 @@
            class="p-2 text-dark" href="#">users</a>
         <a sec:authorize="${hasRole('ADMIN')}" th:href="@{/admin/sections}" th:text="#{header.menu.sections}"
            class="p-2 text-dark" href="#">sections</a>
+        <a sec:authorize="isAuthenticated()" th:href="@{/search}" th:text="#{header.menu.search}"
+           class="p-2 text-dark" href="#">search</a>
     </nav>
 
     <div sec:authorize="isAuthenticated()" th:remove="tag">
