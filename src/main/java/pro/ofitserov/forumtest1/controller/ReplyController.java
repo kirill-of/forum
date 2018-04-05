@@ -3,7 +3,6 @@ package pro.ofitserov.forumtest1.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -58,7 +57,7 @@ public class ReplyController {
     }
 
     @PostMapping("/add")
-    public String update(@RequestParam("topic_id") Long topicId, @RequestParam(value = "reply_id", required = false) Long replyId, @Valid Reply reply, BindingResult result, ModelMap model, SecurityContextHolderAwareRequestWrapper request) {
+    public String update(@RequestParam("topic_id") Long topicId, @RequestParam(value = "reply_id", required = false) Long replyId, @Valid Reply reply, BindingResult result, ModelMap model) {
         model.addAttribute("title", "Update reply");
 
         Topic topic;
@@ -95,7 +94,7 @@ public class ReplyController {
 
             Reply editReply = replyRepository.findOne(reply.getId());
 
-            if (!(userService.isCurrentUserId(editReply.getUser().getId()) || request.isUserInRole("ROLE_MODERATOR"))) {
+            if (!(userService.isCurrentUserId(editReply.getUser().getId()) || userService.hasRole("ROLE_MODERATOR"))) {
                 throw new AccessDeniedException("This user can't edit this reply");
             }
 
@@ -112,7 +111,7 @@ public class ReplyController {
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable Long id, ModelMap model, SecurityContextHolderAwareRequestWrapper request) {
+    public String edit(@PathVariable Long id, ModelMap model) {
         model.addAttribute("title", "Edit reply");
 
         Reply reply = replyRepository.findOne(id);
@@ -121,7 +120,7 @@ public class ReplyController {
             throw new ResourceNotFoundException();
         }
 
-        if (!(userService.isCurrentUserId(reply.getUser().getId()) || request.isUserInRole("ROLE_MODERATOR"))) {
+        if (!(userService.isCurrentUserId(reply.getUser().getId()) || userService.hasRole("ROLE_MODERATOR"))) {
             throw new AccessDeniedException("This user can't edit this reply");
         }
 

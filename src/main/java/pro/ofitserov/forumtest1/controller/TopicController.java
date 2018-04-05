@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -58,7 +57,7 @@ public class TopicController {
 
     @PostMapping("/add")
     @PreAuthorize(value = "hasRole('USER') or hasRole('MODERATOR')")
-    public String add(@Valid Topic topic, BindingResult result, ModelMap model, @RequestParam("section_id") Long sectionId, SecurityContextHolderAwareRequestWrapper request) {
+    public String add(@Valid Topic topic, BindingResult result, ModelMap model, @RequestParam("section_id") Long sectionId) {
         model.addAttribute("title", "Update topic");
 
         Section section;
@@ -81,7 +80,7 @@ public class TopicController {
         } else {
             Topic editTopic = topicRepository.findOne(topic.getId());
 
-            if (!(userService.isCurrentUserId(editTopic.getUser().getId()) || request.isUserInRole("ROLE_MODERATOR"))) {
+            if (!(userService.isCurrentUserId(editTopic.getUser().getId()) || userService.hasRole("ROLE_MODERATOR"))) {
                 throw new AccessDeniedException("This user can't edit this topic");
             }
 
@@ -116,7 +115,7 @@ public class TopicController {
 
     @GetMapping("/{id}/edit")
     @PreAuthorize(value = "hasRole('USER') or hasRole('MODERATOR')")
-    public String edit(@PathVariable Long id, ModelMap model, SecurityContextHolderAwareRequestWrapper request) {
+    public String edit(@PathVariable Long id, ModelMap model) {
 
         Topic topic = topicRepository.findOne(id);
 
@@ -124,7 +123,7 @@ public class TopicController {
             throw new ResourceNotFoundException();
         }
 
-        if (!(userService.isCurrentUserId(topic.getUser().getId()) || request.isUserInRole("ROLE_MODERATOR"))) {
+        if (!(userService.isCurrentUserId(topic.getUser().getId()) || userService.hasRole("ROLE_MODERATOR"))) {
             throw new AccessDeniedException("This user can't edit this topic");
         }
 

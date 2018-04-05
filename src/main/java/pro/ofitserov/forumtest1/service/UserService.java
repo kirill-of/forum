@@ -1,6 +1,7 @@
 package pro.ofitserov.forumtest1.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,6 +13,7 @@ import pro.ofitserov.forumtest1.entity.User;
 import pro.ofitserov.forumtest1.repository.RoleRepository;
 import pro.ofitserov.forumtest1.repository.UserRepository;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -79,5 +81,19 @@ public class UserService implements UserDetailsService {
             }
         }
         return null;
+    }
+
+    public boolean hasRole(String role) {
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        boolean hasRole = false;
+        for (GrantedAuthority authority : authorities) {
+            hasRole = authority.getAuthority().equals(role);
+            if (hasRole) {
+                break;
+            }
+        }
+        return hasRole;
     }
 }
